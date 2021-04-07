@@ -25,6 +25,8 @@ class Board(pygame.sprite.Sprite):
         self.image = pygame.Surface([width, height])
         self.image.fill(BLACK)
         self.image.set_colorkey(BLACK)
+        self.AI = True
+        self.AISpeed = 2.5
 
         #draws sprite
         pygame.draw.rect(self.image, color, [0, 0, width, height])
@@ -41,6 +43,16 @@ class Board(pygame.sprite.Sprite):
         self.rect.y += pixels
         if self.rect.y > 400:
              self.rect.y = 400
+
+    def AI_move(self, ball):
+        if ball.rect.y > self.rect.y:
+            self.rect.y += self.AISpeed
+        elif ball.rect.y < self.rect.y:
+            self.rect.y -= self.AISpeed
+        if self.rect.y > 400:
+            self.rect.y = 400
+        if self.rect.y < 0:
+            self.rect.y = 0
 
 #ball class
 class Ball(pygame.sprite.Sprite):
@@ -68,6 +80,8 @@ class Ball(pygame.sprite.Sprite):
         self.y_velo = randint(-8,8)
 
 
+
+
 #player 1 instanciating
 player1 = Board(WHITE, 10, 100)
 player1.rect.x = 30
@@ -92,7 +106,6 @@ all_sprites_list.add(ball)
 
 play = True
 clock = pygame.time.Clock()
-
 #initial player scores
 score1 = 0
 score2 = 0
@@ -115,7 +128,8 @@ while play:
         player2.moveUp(5)
     if pressed_keys[pygame.K_DOWN]:
         player2.moveDown(5)
-
+    if player2.AI == True:
+        player2.AI_move(ball)
     #scoring system if ball touches variable, increments score and resets ball to middle
     if ball.rect.x >= 690:
         score1 += 1
