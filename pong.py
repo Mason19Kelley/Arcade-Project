@@ -1,6 +1,8 @@
 #import statements
 import pygame
 from random import randint, choice
+import pyglet
+pyglet.font.add_file('ARCADECLASSIC.TTF')
 
 #initializes pygame
 pygame.init()
@@ -8,6 +10,7 @@ pygame.init()
 #base colors for background and sprites
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
+BLUE = (0, 0, 255)
 
 #creates a pygame window
 size = (700, 500)
@@ -145,10 +148,10 @@ while play:
     all_sprites_list.draw(screen)
 
     #draws score at top
-    font = pygame.font.Font(None, 74)
-    text = font.render(str(score1), 1, WHITE)
+    font = pygame.font.Font('ARCADECLASSIC.TTF', 74)
+    text = font.render(str(score1), 1, BLUE)
     screen.blit(text, (250,10))
-    text = font.render(str(score2), 1, WHITE)
+    text = font.render(str(score2), 1, BLUE)
     screen.blit(text, (420,10))
 
     #refreshes display each tick
