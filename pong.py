@@ -46,9 +46,21 @@ class Board(pygame.sprite.Sprite):
 
     def AI_move(self, ball):
         if ball.rect.y > self.rect.y:
-            self.rect.y += self.AISpeed
+            self.AISpeed = ((ball.rect.y-self.rect.y))/(15+600/(ball.rect.x+1))
+            # self.AISpeed = 1/((25*abs(self.rect.y-ball.rect.y)+1)/(abs(ball.rect.x)+1))
         elif ball.rect.y < self.rect.y:
-            self.rect.y -= self.AISpeed
+            self.AISpeed = ((ball.rect.y - self.rect.y))/(15+600/(ball.rect.x+1))
+            # self.AISpeed = -1/((25*abs(self.rect.y-ball.rect.y)+1)/(abs(ball.rect.x)+1))
+
+        self.rect.y += self.AISpeed
+
+        # if ball.rect.y > self.rect.y:
+        #     if ball.rect.y <= 100 and (ball.rect.y - self.rect.y) < 100:
+        #         self.rect.y += (self.AISpeed-1)
+        #     else:
+        #         self.rect.y += self.AISpeed
+        # elif ball.rect.y < self.rect.y:
+        #     self.rect.y -= self.AISpeed
         if self.rect.y > 400:
             self.rect.y = 400
         if self.rect.y < 0:
