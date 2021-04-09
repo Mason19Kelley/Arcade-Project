@@ -44,21 +44,24 @@ class Board(pygame.sprite.Sprite):
     # moves sprite down
     def moveDown(self, pixels):
         self.rect.y += pixels
-        if self.rect.y > 400:
-            self.rect.y = 400
+        if self.rect.y > 380:
+            self.rect.y = 380
 
     def AI_move(self, ball):
         if ball.rect.y > self.rect.y:
-            self.AISpeed = (((ball.rect.y - self.rect.y) / 1.5) + (ball.rect.x) / 200) / 15
+            self.AISpeed = (((ball.rect.y - self.rect.y)+(ball.rect.x/120))/15)
         elif ball.rect.y < self.rect.y:
-            self.AISpeed = (((ball.rect.y - self.rect.y) / 1.5) + (ball.rect.x) / 200) / 15
+            self.AISpeed = (((ball.rect.y - self.rect.y)+(ball.rect.x/120))/15)
 
         self.rect.y += self.AISpeed
 
-        if self.rect.y > 480:
-            self.rect.y = 400
+        if self.rect.y > 380:
+            self.rect.y = 380
         if self.rect.y < 0:
             self.rect.y = 0
+
+    def victory(self, AI=None):
+        pass
 
 
 # ball class
@@ -138,11 +141,12 @@ while play:
         player1.moveUp(5)
     if pressed_keys[pygame.K_s]:
         player1.moveDown(5)
-    if pressed_keys[pygame.K_UP]:
-        player2.moveUp(5)
-    if pressed_keys[pygame.K_DOWN]:
-        player2.moveDown(5)
-    if player2.AI == True:
+    if player2.AI == False:
+        if pressed_keys[pygame.K_UP]:
+            player2.moveUp(5)
+        if pressed_keys[pygame.K_DOWN]:
+            player2.moveDown(5)
+    else:
         player2.AI_move(ball)
     # scoring system if ball touches variable, increments score and resets ball to middle
     if ball.rect.x >= 790:
@@ -181,6 +185,16 @@ while play:
     text = font.render(str(score2), True, BLUE)
     screen.blit(text, (470, 10))
 
+
+    if score1 >= 3:
+        player1.victory()
+        break
+    elif player2.AI == True and score2 >= 3:
+        player2.victory(True)
+        break
+    elif player2.AI == False and score2 >= 3:
+        player2.victory()
+        breakw
     # refreshes display each tick
     pygame.display.flip()
     # sets number of ticks per second
