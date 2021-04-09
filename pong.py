@@ -194,7 +194,7 @@ while play:
         break
     elif player2.AI == False and score2 >= 3:
         player2.victory()
-        breakw
+        break
     # refreshes display each tick
     pygame.display.flip()
     # sets number of ticks per second
