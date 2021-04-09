@@ -13,7 +13,7 @@ WHITE = (255, 255, 255)
 BLUE = (0, 0, 255)
 
 #creates a pygame window
-size = (700, 500)
+size = (800, 480)
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Pong")
 
@@ -97,17 +97,17 @@ class Ball(pygame.sprite.Sprite):
 #player 1 instanciating
 player1 = Board(WHITE, 10, 100)
 player1.rect.x = 30
-player1.rect.y = 190
+player1.rect.y = 182
 
 #player 2 instanciating
 player2 = Board(WHITE, 10, 100)
-player2.rect.x = 670
-player2.rect.y = 190
+player2.rect.x = 760
+player2.rect.y = 182
 
 #ball instanciation
 ball = Ball(WHITE, 7, 7)
-ball.rect.x = 350
-ball.rect.y = 250
+ball.rect.x = 400
+ball.rect.y = 240
 
 #initializes list of sprites and adds all instances to it
 all_sprites_list = pygame.sprite.Group()
@@ -143,21 +143,21 @@ while play:
     if player2.AI == True:
         player2.AI_move(ball)
     #scoring system if ball touches variable, increments score and resets ball to middle
-    if ball.rect.x >= 690:
+    if ball.rect.x >= 790:
         score1 += 1
-        ball.rect.x = 350
-        ball.rect.y = 250
+        ball.rect.x = 400
+        ball.rect.y = 240
         ball.x_velo = choice([-2, 2])
         ball.y_velo = choice([-1, -2, 1, 2])
     if ball.rect.x <= 0:
         score2 += 1
-        ball.rect.x = 350
-        ball.rect.y = 250
+        ball.rect.x = 400
+        ball.rect.y = 240
         ball.x_velo = choice([-2, 2])
         ball.y_velo = choice([-1, -2, 1, 2])
 
     #bounces ball of top or bottom wall
-    if ball.rect.y >490 or ball.rect.y<0:
+    if ball.rect.y >470 or ball.rect.y<0:
         ball.y_velo = -ball.y_velo
 
     #detects collision and reflects ball off board
@@ -169,16 +169,16 @@ while play:
     ball.refresh()
     #draws background and sprites onto screen each tick
     screen.fill(BLACK)
-    pygame.draw.line(screen, WHITE, [349, 0], [349, 500], 1)
+    pygame.draw.line(screen, WHITE, [400, 0], [400, 580], 1)
     all_sprites_list.update()
     all_sprites_list.draw(screen)
 
     #draws score at top
     font = pygame.font.Font('ARCADECLASSIC.TTF', 74)
     text = font.render(str(score1), 1, BLUE)
-    screen.blit(text, (250,10))
+    screen.blit(text, (300,10))
     text = font.render(str(score2), 1, BLUE)
-    screen.blit(text, (420,10))
+    screen.blit(text, (470,10))
 
     #refreshes display each tick
     pygame.display.flip()
