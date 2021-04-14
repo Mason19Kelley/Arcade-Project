@@ -133,13 +133,13 @@ while play:
 
     #creates list of pressed keys and using that to determine movement
     pressed_keys = pygame.key.get_pressed()
+    if pressed_keys[pygame.K_w]:
+        player1.moveUp(5)
+    if pressed_keys[pygame.K_s]:
+        player1.moveDown(5)
     if player2.AI == True:
         player2.AI_move(ball)
     else:
-        if pressed_keys[pygame.K_w]:
-            player1.moveUp(5)
-        if pressed_keys[pygame.K_s]:
-            player1.moveDown(5)
         if pressed_keys[pygame.K_UP]:
             player2.moveUp(5)
         if pressed_keys[pygame.K_DOWN]:
