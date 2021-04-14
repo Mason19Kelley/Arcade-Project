@@ -14,8 +14,7 @@ BLUE = (0, 0, 255)
 
 #creates a pygame window
 size = (800, 480)
-screen = pygame.display.set_mode(size)
-pygame.display.set_caption("Pong")
+
 
 class Game:
     def __init__(self, start):
@@ -24,6 +23,8 @@ class Game:
         self.score2 = 0
 
     def play(self):
+        screen = pygame.display.set_mode(size)
+        pygame.display.set_caption("Pong")
         while self.start:
             # quits if x is pressed
             for event in pygame.event.get():
@@ -184,4 +185,4 @@ clock = pygame.time.Clock()
 
 game = Game(True)
 #main program loop
-# game.play()
+#game.play()
