@@ -36,7 +36,7 @@ class MenuScreen(Frame, Canvas):
         button.grid(row = 2, column = 0)
         button = Button(self, text = "One\nPlayer", font = ('ARCADECLASSIC', 15), height = 2, width = 15, anchor = 'center', bg = 'white', command=pong.game.play)
         button.grid(row = 2, column = 1)
-        button = Button(self, text = "Two\nPlayers", font = ('ARCADECLASSIC', 15), height = 2, width = 15, anchor = 'center', bg = 'white')
+        button = Button(self, text = "Two\nPlayers", font = ('ARCADECLASSIC', 15), height = 2, width = 15, anchor = 'center', bg = 'white', command = pong.game.play2)
         button.grid(row = 3, column = 1)
         button = Button(self, text = "Start", font = ('ARCADECLASSIC', 15), height = 2, width = 15, anchor = 'center', bg = 'white')
         button.grid(row = 2, column = 2)
