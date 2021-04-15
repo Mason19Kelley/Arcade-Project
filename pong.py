@@ -84,6 +84,7 @@ class Game:
             text = font.render(str(self.score2), 1, BLUE)
             screen.blit(text, (470, 10))
 
+            self.victory()
             # refreshes display each tick
             pygame.display.flip()
             # sets number of ticks per second

@@ -44,6 +44,9 @@ class MenuScreen(Frame, Canvas):
         button.grid(row = 4)
         self.pack(fill = "both", expand = True)
 
+    def pongMenu(self):
+        pass
+
 window = Tk()
 window.title("Arcade")
 WIDTH = 800
