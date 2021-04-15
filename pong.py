@@ -89,6 +89,11 @@ class Game:
             # sets number of ticks per second
             clock.tick(60)
 
+    def victory(self):
+        if self.score1 == 5:
+            pass
+        elif self.score2 == 5:
+            pass
 
 #board class inherits from pygame sprite class
 class Board(pygame.sprite.Sprite):
