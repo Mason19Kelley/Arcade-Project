@@ -43,6 +43,7 @@ class MenuScreen(Frame, Canvas):
         button = Button(self, text = "Leaderboards", font = ('ARCADECLASSIC', 15), height = 2, width = 15, anchor = 'center', bg = 'light grey')
         button.grid(row = 4)
         self.pack(fill = "both", expand = True)
+
 window = Tk()
 window.title("Arcade")
 WIDTH = 800

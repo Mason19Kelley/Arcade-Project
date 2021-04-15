@@ -186,4 +186,4 @@ clock = pygame.time.Clock()
 
 game = Game(True)
 #main program loop
-game.play(True)
+#game.play(True)
