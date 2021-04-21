@@ -15,6 +15,9 @@ BLUE = (0, 0, 255)
 #creates a pygame window
 size = (800, 480)
 
+boop = pygame.mixer.Sound("pong_bounce.wav")
+pygame.mixer.music.load('pong_bounce.wav')
+
 
 class Game:
     def __init__(self, start):
@@ -26,6 +29,7 @@ class Game:
         player2.AI = ai
         screen = pygame.display.set_mode(size)
         pygame.display.set_caption("Pong")
+
         while self.start:
             # quits if x is pressed
             for event in pygame.event.get():
@@ -162,6 +166,7 @@ class Ball(pygame.sprite.Sprite):
     def bounce(self):
         self.x_velo = -self.x_velo
         self.y_velo = randint(-8,8)
+        boop.play()
 
 
 
