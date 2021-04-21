@@ -41,6 +41,8 @@ class Game:
                 player1.moveDown(5)
             if player2.AI == True:
                 player2.AI_move(ball)
+            if pressed_keys[pygame.K_SPACE]:
+                pygame.quit()
             else:
                 if pressed_keys[pygame.K_UP]:
                     player2.moveUp(5)

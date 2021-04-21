@@ -3,6 +3,7 @@
 from tkinter import *
 import pyglet
 import pong
+#import Simon
 pyglet.font.add_file('ARCADECLASSIC.TTF')
 
 class MenuScreen(Frame, Canvas):
@@ -32,7 +33,7 @@ class MenuScreen(Frame, Canvas):
         self.display = Label(self, image = img , height = 245, width = 272, anchor = 'center', bg = 'deep sky blue')
         self.display.image = img
         self.display.grid(row = 1, column = 2)
-        button = Button(self, text = "Start", font = ('ARCADECLASSIC', 15), height = 2, width = 15, anchor = 'center', bg = 'white')
+        button = Button(self, text = "Start", font = ('ARCADECLASSIC', 15), height = 2, width = 15, anchor = 'center', bg = 'white', command = lambda: Simon.game.Splay())
         button.grid(row = 2, column = 0)
         button = Button(self, text = "One\nPlayer", font = ('ARCADECLASSIC', 15), height = 2, width = 15, anchor = 'center', bg = 'white', command= lambda: pong.game.play(True))
         button.grid(row = 2, column = 1)
