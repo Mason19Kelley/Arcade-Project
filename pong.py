@@ -89,18 +89,19 @@ class Game:
             screen.blit(text, (300, 10))
             text = font.render(str(self.score2), 1, BLUE)
             screen.blit(text, (470, 10))
-
-            self.victory()
+            if self.score1 >= 5:
+                self.victory("Player 1")
+            elif self.score2 >= 5:
+                self.victory("Player 2")
             # refreshes display each tick
             pygame.display.flip()
             # sets number of ticks per second
             clock.tick(60)
 
-    def victory(self):
-        if self.score1 == 5:
-            pass
-        elif self.score2 == 5:
-            pass
+    def victory(self, winner):
+        pass
+
+
 
 #board class inherits from pygame sprite class
 class Board(pygame.sprite.Sprite):
