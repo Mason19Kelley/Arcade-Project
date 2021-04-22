@@ -24,83 +24,96 @@ class Game:
         self.start = start
         self.score1 = 0
         self.score2 = 0
+        self.pause = False
+        self.over = False
 
     def play(self, ai):
         player2.AI = ai
         screen = pygame.display.set_mode(size)
         pygame.display.set_caption("Pong")
-
+        self.over = False
         while self.start:
             # quits if x is pressed
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     exit()
-
-            # creates list of pressed keys and using that to determine movement
             pressed_keys = pygame.key.get_pressed()
-            if pressed_keys[pygame.K_w]:
-                player1.moveUp(5)
-            if pressed_keys[pygame.K_s]:
-                player1.moveDown(5)
-            if player2.AI == True:
-                player2.AI_move(ball)
-            if pressed_keys[pygame.K_SPACE]:
-                pygame.quit()
-            else:
-                if pressed_keys[pygame.K_UP]:
-                    player2.moveUp(5)
-                if pressed_keys[pygame.K_DOWN]:
-                    player2.moveDown(5)
+            if pressed_keys[pygame.K_p]:
+                self.pauseMenu()
+            if self.pause == False:
+                # creates list of pressed keys and using that to determine movement
+                pressed_keys = pygame.key.get_pressed()
+                if pressed_keys[pygame.K_w]:
+                    player1.moveUp(5)
+                if pressed_keys[pygame.K_s]:
+                    player1.moveDown(5)
+                if player2.AI == True:
+                    player2.AI_move(ball)
+                if pressed_keys[pygame.K_SPACE]:
+                    pygame.quit()
+                else:
+                    if pressed_keys[pygame.K_UP]:
+                        player2.moveUp(5)
+                    if pressed_keys[pygame.K_DOWN]:
+                        player2.moveDown(5)
 
-            # scoring system if ball touches variable, increments score and resets ball to middle
-            if ball.rect.x >= 790:
-                self.score1 += 1
-                ball.rect.x = 400
-                ball.rect.y = 240
-                ball.x_velo = choice([-2, 2])
-                ball.y_velo = choice([-1, -2, 1, 2])
-            if ball.rect.x <= 0:
-                self.score2 += 1
-                ball.rect.x = 400
-                ball.rect.y = 240
-                ball.x_velo = choice([-2, 2])
-                ball.y_velo = choice([-1, -2, 1, 2])
+                if pressed_keys[pygame.K_p]:
+                    self.pauseMenu()
 
-            # bounces ball of top or bottom wall
-            if ball.rect.y > 470 or ball.rect.y < 0:
-                ball.y_velo = -ball.y_velo
+                # scoring system if ball touches variable, increments score and resets ball to middle
+                if ball.rect.x >= 790:
+                    self.score1 += 1
+                    ball.rect.x = 400
+                    ball.rect.y = 240
+                    ball.x_velo = choice([-2, 2])
+                    ball.y_velo = choice([-1, -2, 1, 2])
+                if ball.rect.x <= 0:
+                    self.score2 += 1
+                    ball.rect.x = 400
+                    ball.rect.y = 240
+                    ball.x_velo = choice([-2, 2])
+                    ball.y_velo = choice([-1, -2, 1, 2])
 
-            # detects collision and reflects ball off board
-            if pygame.sprite.collide_mask(ball, player1) or pygame.sprite.collide_mask(ball, player2):
-                ball.bounce()
+                # bounces ball of top or bottom wall
+                if ball.rect.y > 470 or ball.rect.y < 0:
+                    ball.y_velo = -ball.y_velo
 
-            # refresh method to move ball
-            ball.refresh()
-            # draws background and sprites onto screen each tick
-            screen.fill(BLACK)
-            pygame.draw.line(screen, WHITE, [400, 0], [400, 580], 1)
-            all_sprites_list.update()
-            all_sprites_list.draw(screen)
+                # detects collision and reflects ball off board
+                if pygame.sprite.collide_mask(ball, player1) or pygame.sprite.collide_mask(ball, player2):
+                    ball.bounce()
 
-            # draws score at top
-            font = pygame.font.Font('ARCADECLASSIC.TTF', 74)
-            text = font.render(str(self.score1), 1, BLUE)
-            screen.blit(text, (300, 10))
-            text = font.render(str(self.score2), 1, BLUE)
-            screen.blit(text, (470, 10))
-            if self.score1 >= 5:
-                self.victory("Player 1")
-            elif self.score2 >= 5:
-                self.victory("Player 2")
-            # refreshes display each tick
-            pygame.display.flip()
-            # sets number of ticks per second
-            clock.tick(60)
+                # refresh method to move ball
+                ball.refresh()
+                # draws background and sprites onto screen each tick
+                screen.fill(BLACK)
+                pygame.draw.line(screen, WHITE, [400, 0], [400, 580], 1)
+                all_sprites_list.update()
+                all_sprites_list.draw(screen)
+
+                # draws score at top
+                font = pygame.font.Font('ARCADECLASSIC.TTF', 74)
+                text = font.render(str(self.score1), 1, BLUE)
+                screen.blit(text, (300, 10))
+                text = font.render(str(self.score2), 1, BLUE)
+                screen.blit(text, (470, 10))
+                if self.score1 >= 5:
+                    self.victory("Player 1")
+                elif self.score2 >= 5:
+                    self.victory("Player 2")
+                # refreshes display each tick
+                pygame.display.flip()
+                # sets number of ticks per second
+                clock.tick(60)
 
     def victory(self, winner):
         pass
 
+    def pauseMenu(self):
+        if self.pause == True:
+            self.pause = False
+        elif self.pause == False:
+            self.pause = True
 
 
 #board class inherits from pygame sprite class
