@@ -21,10 +21,10 @@ switches = [20, 16, 12, 26]
 leds = [6, 13, 19, 21]
 sounds = [pygame.mixer.Sound("one.wav"),pygame.mixer.Sound("two.wav"), pygame.mixer.Sound("three.wav"),pygame.mixer.Sound("four.wav")]
 #GPIO ESTABLISHMENT
-GPIO.setmode(GPIO.BCM)
+#GPIO.setmode(GPIO.BCM)
 
-GPIO.setup(switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-GPIO.setup(leds, GPIO.OUT)
+#GPIO.setup(switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+#GPIO.setup(leds, GPIO.OUT)
 #function to power all LEDS
 def all_on():
     for i in leds:
