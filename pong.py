@@ -32,6 +32,7 @@ class Game:
         screen = pygame.display.set_mode(size)
         pygame.display.set_caption("Pong")
         self.over = False
+        previous_key_p = False
         while self.start:
             # quits if x is pressed
             for event in pygame.event.get():
@@ -39,8 +40,10 @@ class Game:
                     pygame.quit()
                     exit()
             pressed_keys = pygame.key.get_pressed()
-            if pressed_keys[pygame.K_p]:
+            if pressed_keys[pygame.K_p] and previous_key_p == False:
                 self.pauseMenu()
+
+            previous_key_p = pressed_keys[pygame.K_p]
             if self.pause == False:
                 # creates list of pressed keys and using that to determine movement
                 pressed_keys = pygame.key.get_pressed()
@@ -58,8 +61,6 @@ class Game:
                     if pressed_keys[pygame.K_DOWN]:
                         player2.moveDown(5)
 
-                if pressed_keys[pygame.K_p]:
-                    self.pauseMenu()
 
                 # scoring system if ball touches variable, increments score and resets ball to middle
                 if ball.rect.x >= 790:
@@ -110,10 +111,7 @@ class Game:
         pass
 
     def pauseMenu(self):
-        if self.pause == True:
-            self.pause = False
-        elif self.pause == False:
-            self.pause = True
+        self.pause = not self.pause
 
 
 #board class inherits from pygame sprite class
