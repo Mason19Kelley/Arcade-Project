@@ -27,11 +27,11 @@ class Game:
         self.pause = False
         self.over = False
         self.winner = None
-
+        self.screen = None
     def play(self, ai):
         player2.AI = ai
-        screen = pygame.display.set_mode(size)
         pygame.display.set_caption("Pong")
+        self.screen = pygame.display.set_mode(size)
         self.over = False
         previous_key_p = False
         while self.start:
@@ -43,6 +43,8 @@ class Game:
             pressed_keys = pygame.key.get_pressed()
             if pressed_keys[pygame.K_p] and previous_key_p == False:
                 self.pauseMenu()
+            if pressed_keys[pygame.K_r]:
+                self.restart()
 
             previous_key_p = pressed_keys[pygame.K_p]
             if self.pause == False:
@@ -90,17 +92,17 @@ class Game:
                 # refresh method to move ball
                 ball.refresh()
                 # draws background and sprites onto screen each tick
-                screen.fill(BLACK)
-                pygame.draw.line(screen, WHITE, [400, 0], [400, 580], 1)
+                self.screen.fill(BLACK)
+                pygame.draw.line(self.screen, WHITE, [400, 0], [400, 580], 1)
                 all_sprites_list.update()
-                all_sprites_list.draw(screen)
+                all_sprites_list.draw(self.screen)
 
                 # draws score at top
                 font = pygame.font.Font('ARCADECLASSIC.TTF', 74)
                 text = font.render(str(self.score1), 1, BLUE)
-                screen.blit(text, (300, 10))
+                self.screen.blit(text, (300, 10))
                 text = font.render(str(self.score2), 1, BLUE)
-                screen.blit(text, (470, 10))
+                self.screen.blit(text, (470, 10))
                 if self.score1 >= 5:
                     self.victory("Player 1")
                 elif self.score2 >= 5:
@@ -117,11 +119,15 @@ class Game:
     def victory(self, winner):
         self.winner = winner
         self.over = True
-
+    def menu(self, text):
+        pygame.draw.rect(self.screen, WHITE, [800 / 2, 480 / 2, 140, 40])
+        font = pygame.font.Font('ARCADECLASSIC.TTF', 74)
+        text1 = font.render(str(text), 1, BLUE)
+        self.screen.blit(text1, (200,200))
 
     def pauseMenu(self):
         self.pause = not self.pause
-
+        self.menu("Hello")
     def restart(self):
         self.pause = False
         self.score1 = 0
@@ -136,6 +142,8 @@ class Game:
         ball.rect.y = 240
         ball.x_velo = choice([-2, 2])
         ball.y_velo = choice([-1, -2, 1, 2])
+    def get_screen(self):
+        return pygame.display.set_mode(size)
 #board class inherits from pygame sprite class
 class Board(pygame.sprite.Sprite):
     #constructor
@@ -204,7 +212,6 @@ class Ball(pygame.sprite.Sprite):
 
 
 
-
 #player 1 instanciating
 player1 = Board(WHITE, 10, 100)
 player1.rect.x = 30
@@ -230,7 +237,7 @@ all_sprites_list.add(ball)
 
 clock = pygame.time.Clock()
 #initial player scores
-
 game = Game(True)
+
 #main program loop
 #game.play(True)
