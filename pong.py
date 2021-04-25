@@ -26,6 +26,7 @@ class Game:
         self.score2 = 0
         self.pause = False
         self.over = False
+        self.winner = None
 
     def play(self, ai):
         player2.AI = ai
@@ -53,6 +54,8 @@ class Game:
                     player1.moveDown(5)
                 if player2.AI == True:
                     player2.AI_move(ball)
+                if pressed_keys[pygame.K_r]:
+                    self.restart()
                 if pressed_keys[pygame.K_SPACE]:
                     pygame.quit()
                 else:
@@ -106,14 +109,33 @@ class Game:
                 pygame.display.flip()
                 # sets number of ticks per second
                 clock.tick(60)
+            elif self.over == True:
+                pass
+
+
 
     def victory(self, winner):
-        pass
+        self.winner = winner
+        self.over = True
+
 
     def pauseMenu(self):
         self.pause = not self.pause
 
-
+    def restart(self):
+        self.pause = False
+        self.score1 = 0
+        self.score2 = 0
+        self.over = False
+        self.winner = None
+        player1.rect.x = 30
+        player1.rect.y = 182
+        player2.rect.x = 760
+        player2.rect.y = 182
+        ball.rect.x = 400
+        ball.rect.y = 240
+        ball.x_velo = choice([-2, 2])
+        ball.y_velo = choice([-1, -2, 1, 2])
 #board class inherits from pygame sprite class
 class Board(pygame.sprite.Sprite):
     #constructor
