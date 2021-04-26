@@ -38,8 +38,10 @@ class Game:
             # quits if x is pressed
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+                    pygame.display.quit()
                     pygame.quit()
-                    exit()
+                    self.__del__()
+                    return
             pressed_keys = pygame.key.get_pressed()
             if pressed_keys[pygame.K_p] and previous_key_p == False:
                 self.pauseMenu()
@@ -113,14 +115,16 @@ class Game:
                 pygame.display.flip()
                 # sets number of ticks per second
                 clock.tick(60)
-            elif self.over == True:
-                pass
+            if self.over == True:
+                self.pause = True
+                self.menu(f"    {self.winner} wins!   ", "Press  R  to restart", "Press  Q  to quit")
 
 
 
     def victory(self, winner):
         self.winner = winner
         self.over = True
+
     def menu(self, text, text1, text2):
         x = 100
         y = 100
@@ -154,6 +158,9 @@ class Game:
         ball.rect.y = 240
         ball.x_velo = choice([-2, 2])
         ball.y_velo = choice([-1, -2, 1, 2])
+
+    def __del__(self):
+        del self
 #board class inherits from pygame sprite class
 class Board(pygame.sprite.Sprite):
     #constructor
@@ -247,7 +254,9 @@ all_sprites_list.add(ball)
 
 clock = pygame.time.Clock()
 #initial player scores
-game = Game(True)
+def pong_play(AI):
+    game = Game(True)
+    game.play(AI)
 
 #main program loop
 #game.play(True)
