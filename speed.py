@@ -5,7 +5,7 @@ from time import sleep
 import timeit
 import pyglet
 pyglet.font.add_file('ARCADECLASSIC.TTF')
-buttons = []
+buttons = [0,1,2,3]
 size = (800, 480)
 red = (255, 0, 0)
 blue = (0, 0, 255)
@@ -28,7 +28,7 @@ class SpeedGame:
         pygame.draw.rect(self.speed, black, (10, 10, 780, 460))
         font = pygame.font.Font('ARCADECLASSIC.TTF', 50)
         text = font.render("You Failed\nScore: {}".format(self.score), 1, white)
-        self.speed.screen.blit(text, (300, 160))
+        self.speed.blit(text, (300, 160))
     def speedPlay(self):
         pygame.init()
         pygame.display.set_caption("Speed")
@@ -37,23 +37,37 @@ class SpeedGame:
         self.t = random.randint(0,3)
         pygame.display.update()
         while self.state:
-
+            print(self.t)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     exit()
-            #pygame.draw.rect(self.speed, colors[t], (10, 10, 780, 460))
             self.speed.fill(colors[self.t])
+            print('HI')
             start = timeit.timeit()
+            pygame.display.update()
             while not self.pressed:
+
                 for i in range(len(buttons)):
-                    if GPIO.input(buttons[i]) == True:
-                        self.val = i
+                    pressed_keys = pygame.key.get_pressed()
+                    if pressed_keys[pygame.K_0] == True:
+                        self.val = 0
                         self.pressed = True
+                    elif pressed_keys[pygame.K_1] == True:
+                        self.val = 1
+                        self.pressed = True
+                    elif pressed_keys[pygame.K_2] == True:
+                        self.val = 2
+                        self.pressed = True
+                    elif pressed_keys[pygame.K_3] == True:
+                        self.val = 3
+                        self.pressed = True
+
             if self.val == self.t:
                 end = timeit.timeit() - start
                 self.score += 1
                 self.t = random.randint(0, 3)
+                sleep(1)
             else:
                 self.loss()
 
