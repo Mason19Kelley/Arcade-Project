@@ -124,7 +124,7 @@ class Game:
         font = pygame.font.Font('ARCADECLASSIC.TTF', 74)
         text1 = font.render(str(text), 1, BLUE)
         self.screen.blit(text1, (200,200))
-
+        pygame.display.update()
     def pauseMenu(self):
         self.pause = not self.pause
         self.menu("Hello")

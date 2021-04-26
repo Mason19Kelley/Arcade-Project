@@ -63,7 +63,7 @@ class SpeedGame:
             clock.tick(60)
 s1 = SpeedGame()
 clock = pygame.time.Clock()
-#s1.speedPlay()
+s1.speedPlay()
 
 
 
