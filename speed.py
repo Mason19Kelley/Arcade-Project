@@ -14,38 +14,54 @@ yellow = (255, 255, 0)
 black = (0, 0, 0)
 white = (255, 255, 255)
 colors = [red, blue, green, yellow]
-state = True
-score = 0
-pressed = False
 #GPIO.setmode(GPIO.BCM)
 #GPIO.setup(buttons, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-def loss():
-    pygame.draw.rect(Speed, black, (10, 10, 780, 460))
-    font = pygame.font.Font('ARCADECLASSIC.TTF', 50)
-    text = font.render("You Failed\nScore: {}".format(score), 1, WHITE)
-    Speed.screen.blit(text, (300, 160))
-def speedPlay():
-    pygame.init()
-    Speed = pygame.display.set_mode((size), 0, 32)
-    pygame.display.set_caption("Speed")
-    Speed.fill(0,0,0)
-    t = randint(0,3)
-    while state:
-        pygame.draw.rect(Speed, colors[t], (10, 10, 780, 460))
-        start = timeit.timeit()
-        while not pressed:
-            for i in range(len(buttons)):
-                if GPIO.input(buttons[i]) == True:
-                    val = i
-                    pressed = True
-        if val == t:
-            end = timeit.timeit() - start
-            score += 1
-            t = randint(0, 3)
-        else:
-            loss()
-speedPlay()
-loss()
+class SpeedGame:
+    def __init__(self):
+        self.pressed = False
+        self.score = 0
+        self.state = True
+        self.speed = None
+        self.val = None
+    def loss(self):
+        pygame.draw.rect(self.speed, black, (10, 10, 780, 460))
+        font = pygame.font.Font('ARCADECLASSIC.TTF', 50)
+        text = font.render("You Failed\nScore: {}".format(self.score), 1, white)
+        self.speed.screen.blit(text, (300, 160))
+    def speedPlay(self):
+        pygame.init()
+        pygame.display.set_caption("Speed")
+        self.speed = pygame.display.set_mode(size)
+        self.speed.fill(red)
+        t = random.randint(0,3)
+        pygame.display.update()
+        while self.state:
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
+            pygame.draw.rect(self.speed, colors[t], (10, 10, 780, 460))
+            start = timeit.timeit()
+            while not self.pressed:
+                for i in range(len(buttons)):
+                    if GPIO.input(buttons[i]) == True:
+                        self.val = i
+                        self.pressed = True
+            if self.val == t:
+                end = timeit.timeit() - start
+                self.score += 1
+                t = random.randint(0, 3)
+            else:
+                self.loss()
+
+            # refreshes display each tick
+            pygame.display.update()
+            # sets number of ticks per second
+            clock.tick(60)
+s1 = SpeedGame()
+clock = pygame.time.Clock()
+s1.speedPlay()
 
 
 
