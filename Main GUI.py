@@ -33,7 +33,7 @@ class MenuScreen(Frame, Canvas):
         self.display.grid(row = 1, column = 2)
         button = Button(self, text = "Start", font = ('ARCADECLASSIC', 15), height = 2, width = 15, anchor = 'center', bg = 'white')
         button.grid(row = 2, column = 0)
-        button = Button(self, text = "One\nPlayer", font = ('ARCADECLASSIC', 15), height = 2, width = 15, anchor = 'center', bg = 'white', command=lambda: pong.pong_play(False))
+        button = Button(self, text = "One\nPlayer", font = ('ARCADECLASSIC', 15), height = 2, width = 15, anchor = 'center', bg = 'white', command=lambda: pong.in_pong(False))
         button.grid(row = 2, column = 1)
         button = Button(self, text = "Two\nPlayers", font = ('ARCADECLASSIC', 15), height = 2, width = 15, anchor = 'center', bg = 'white', command=lambda: pong.game.play(False))
         button.grid(row = 3, column = 1)
