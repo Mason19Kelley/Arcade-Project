@@ -23,6 +23,7 @@ class SpeedGame:
         self.state = True
         self.speed = None
         self.val = None
+        self.t = None
     def loss(self):
         pygame.draw.rect(self.speed, black, (10, 10, 780, 460))
         font = pygame.font.Font('ARCADECLASSIC.TTF', 50)
@@ -32,8 +33,8 @@ class SpeedGame:
         pygame.init()
         pygame.display.set_caption("Speed")
         self.speed = pygame.display.set_mode(size)
-        self.speed.fill(red)
-        t = random.randint(0,3)
+        self.speed.fill(black)
+        self.t = random.randint(0,3)
         pygame.display.update()
         while self.state:
 
@@ -41,17 +42,18 @@ class SpeedGame:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     exit()
-            pygame.draw.rect(self.speed, colors[t], (10, 10, 780, 460))
+            #pygame.draw.rect(self.speed, colors[t], (10, 10, 780, 460))
+            self.speed.fill(colors[self.t])
             start = timeit.timeit()
             while not self.pressed:
                 for i in range(len(buttons)):
                     if GPIO.input(buttons[i]) == True:
                         self.val = i
                         self.pressed = True
-            if self.val == t:
+            if self.val == self.t:
                 end = timeit.timeit() - start
                 self.score += 1
-                t = random.randint(0, 3)
+                self.t = random.randint(0, 3)
             else:
                 self.loss()
 
