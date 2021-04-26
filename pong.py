@@ -142,8 +142,6 @@ class Game:
         ball.rect.y = 240
         ball.x_velo = choice([-2, 2])
         ball.y_velo = choice([-1, -2, 1, 2])
-    def get_screen(self):
-        return pygame.display.set_mode(size)
 #board class inherits from pygame sprite class
 class Board(pygame.sprite.Sprite):
     #constructor
