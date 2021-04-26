@@ -19,7 +19,7 @@ colors = [(255, 0, 0), (0, 0, 255), (255, 255, 0), (0, 255, 0)]
 #all assets used by GPIO
 switches = [20, 16, 12, 26]
 leds = [6, 13, 19, 21]
-sounds = [pygame.mixer.Sound("one.wav"),pygame.mixer.Sound("two.wav"), pygame.mixer.Sound("three.wav"),pygame.mixer.Sound("four.wav")]
+sounds = [pygame.mixer.Sound("do.wav"),pygame.mixer.Sound("re.wav"), pygame.mixer.Sound("sol.wav"),pygame.mixer.Sound("fa.wav")]
 #GPIO ESTABLISHMENT
 GPIO.setmode(GPIO.BCM)
 
