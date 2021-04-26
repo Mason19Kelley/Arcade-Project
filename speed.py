@@ -37,39 +37,45 @@ class SpeedGame:
         self.t = random.randint(0,3)
         pygame.display.update()
         while self.state:
-            print(self.t)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+                    pygame.display.quit()
                     pygame.quit()
-                    exit()
+                    self.__del__()
+                    return
             self.speed.fill(colors[self.t])
-            print('HI')
+            font2 = pygame.font.Font('ARCADECLASSIC.TTF', 74)
+            text = font2.render(str(self.score), 1, white)
+            self.speed.blit(text, (20, 10))
             start = timeit.timeit()
             pygame.display.update()
-            while not self.pressed:
-                pressed_keys = pygame.key.get_pressed()
-                #for i in range(len(buttons)):
+            pressed_keys = pygame.key.get_pressed()
 
-                if pressed_keys[pygame.K_0] == True:
-                    self.val = 0
-                    self.pressed = True
-                elif pressed_keys[pygame.K_1] == True:
-                    self.val = 1
-                    self.pressed = True
-                elif pressed_keys[pygame.K_2] == True:
-                    self.val = 2
-                    self.pressed = True
-                elif pressed_keys[pygame.K_3] == True:
-                    self.val = 3
-                    self.pressed = True
+            if pressed_keys[pygame.K_0] == True:
+                self.val = 0
+                self.pressed = True
+            elif pressed_keys[pygame.K_1] == True:
+                self.val = 1
+                self.pressed = True
+            elif pressed_keys[pygame.K_2] == True:
+                self.val = 2
+                self.pressed = True
+            elif pressed_keys[pygame.K_3] == True:
+                self.val = 3
+                self.pressed = True
 
-            if self.val == self.t:
-                end = timeit.timeit() - start
-                self.score += 1
-                self.t = random.randint(0, 3)
-                sleep(1)
-            else:
-                self.loss()
+            if self.pressed == True:
+                    if self.val == self.t:
+                        end = timeit.timeit() - start
+                        self.score += 1
+                        self.t = random.randint(0, 3)
+                        self.speed.fill(black)
+                        pygame.display.update()
+                        self.pressed = False
+                        sleep(1)
+
+                    else:
+                        self.loss()
 
             # refreshes display each tick
             pygame.display.flip()
