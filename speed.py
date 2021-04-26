@@ -19,16 +19,17 @@ colors = [red, blue, green, yellow]
 class SpeedGame:
     def __init__(self):
         self.pressed = False
-        self.score = 0
+        self.scores = 0
         self.state = True
         self.speed = None
         self.val = None
         self.t = None
-    def loss(self):
+        self.times = 10
+    def game_over(self):
         pygame.draw.rect(self.speed, black, (10, 10, 780, 460))
-        font = pygame.font.Font('ARCADECLASSIC.TTF', 50)
-        text = font.render("You Failed\nScore: {}".format(self.score), 1, white)
-        self.speed.blit(text, (300, 160))
+        # font = pygame.font.Font('ARCADECLASSIC.TTF', 50)
+        # text = font.render("You Failed\nScore: {}".format(self.score), 1, white)
+        # self.speed.blit(text, (300, 160))
     def speedPlay(self):
         pygame.init()
         pygame.display.set_caption("Speed")
@@ -36,7 +37,7 @@ class SpeedGame:
         self.speed.fill(black)
         self.t = random.randint(0,3)
         pygame.display.update()
-        while self.state:
+        while self.state and self.times > 0:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.display.quit()
@@ -44,7 +45,7 @@ class SpeedGame:
                     return
             self.speed.fill(colors[self.t])
             font2 = pygame.font.Font('ARCADECLASSIC.TTF', 74)
-            text = font2.render(str(self.score), 1, white)
+            text = font2.render(str(self.times), 1, white)
             self.speed.blit(text, (20, 10))
             start = timeit.timeit()
             pygame.display.update()
@@ -66,15 +67,13 @@ class SpeedGame:
             if self.pressed == True:
                     if self.val == self.t:
                         end = timeit.timeit() - start
-                        self.score += 1
                         self.t = random.randint(0, 3)
                         self.speed.fill(black)
                         pygame.display.update()
                         self.pressed = False
+                        self.times -= 1
                         sleep(1)
 
-                    else:
-                        self.loss()
 
             # refreshes display each tick
             pygame.display.flip()
