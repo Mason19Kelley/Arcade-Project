@@ -41,7 +41,6 @@ class SpeedGame:
                 if event.type == pygame.QUIT:
                     pygame.display.quit()
                     pygame.quit()
-                    self.__del__()
                     return
             self.speed.fill(colors[self.t])
             font2 = pygame.font.Font('ARCADECLASSIC.TTF', 74)
