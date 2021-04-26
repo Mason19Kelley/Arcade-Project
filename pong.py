@@ -11,7 +11,7 @@ pygame.init()
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 BLUE = (0, 0, 255)
-
+RED = (255, 0, 0)
 #creates a pygame window
 size = (800, 480)
 
@@ -45,7 +45,9 @@ class Game:
                 self.pauseMenu()
             if pressed_keys[pygame.K_r]:
                 self.restart()
-
+            if pressed_keys[pygame.K_q]:
+                pygame.quit()
+                exit()
             previous_key_p = pressed_keys[pygame.K_p]
             if self.pause == False:
                 # creates list of pressed keys and using that to determine movement
@@ -119,15 +121,25 @@ class Game:
     def victory(self, winner):
         self.winner = winner
         self.over = True
-    def menu(self, text):
-        pygame.draw.rect(self.screen, WHITE, [800 / 2, 480 / 2, 140, 40])
-        font = pygame.font.Font('ARCADECLASSIC.TTF', 74)
-        text1 = font.render(str(text), 1, BLUE)
-        self.screen.blit(text1, (200,200))
+    def menu(self, text, text1, text2):
+        x = 100
+        y = 100
+        pygame.draw.rect(self.screen, BLACK, (x, y, 600, 600), 0)
+        pygame.draw.rect(self.screen, WHITE, (x - 1, y - 1, 600, 300), 1)
+        pygame.draw.rect(self.screen, WHITE, (x - 2, y - 2, 600, 300), 1)
+        pygame.draw.rect(self.screen, WHITE, (x - 3, y - 3, 600, 300), 1)
+        pygame.draw.rect(self.screen, WHITE, (x - 4, y - 4, 600, 300), 1)
+        font = pygame.font.Font('ARCADECLASSIC.TTF', 66)
+        text3 = font.render(str(text), 1, RED)
+        text4 = font.render(str(text1), 1, RED)
+        text5 = font.render(str(text2), 1, RED)
+        self.screen.blit(text3, (108,100))
+        self.screen.blit(text4, (112, 200))
+        self.screen.blit(text5, (164, 300))
         pygame.display.update()
     def pauseMenu(self):
         self.pause = not self.pause
-        self.menu("Hello")
+        self.menu("Press P  to  unpause", "Press  R  to restart", "Press  Q  to quit")
     def restart(self):
         self.pause = False
         self.score1 = 0
