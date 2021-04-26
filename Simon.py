@@ -13,18 +13,18 @@ from tkinter import *
 
 #Set true for debug 
 DEBUG = False
+size = (800, 480)
 
-pygame.init()
-
+colors = [(255, 0, 0), (0, 0, 255), (255, 255, 0), (0, 255, 0)]
 #all assets used by GPIO
 switches = [20, 16, 12, 26]
 leds = [6, 13, 19, 21]
 sounds = [pygame.mixer.Sound("one.wav"),pygame.mixer.Sound("two.wav"), pygame.mixer.Sound("three.wav"),pygame.mixer.Sound("four.wav")]
 #GPIO ESTABLISHMENT
-#GPIO.setmode(GPIO.BCM)
+GPIO.setmode(GPIO.BCM)
 
-#GPIO.setup(switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-#GPIO.setup(leds, GPIO.OUT)
+GPIO.setup(switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(leds, GPIO.OUT)
 #function to power all LEDS
 def all_on():
     for i in leds:
@@ -52,6 +52,10 @@ print("Press Ctrl+C to exit...")
 
 #initiates all game unless keyboard press happens
 def Splay():
+    pygame.init()
+    Simon = pygame.display.set_mode((size), 0, 32)
+    Simon.fill(0,0,0)
+
     try:
         while True:
             seq.append(randint(0,3))
@@ -82,6 +86,8 @@ def Splay():
                 elif(len(seq)>=7):
                     GPIO.output(leds[s], True)
                     sounds[s].play()
+                    pygame.draw.rect(Simon, colors[s], (10, 10, 780, 460))
+                    pygame.display.update()
                     sleep(0.8)
                     GPIO.output(leds[s], False)
                     sleep(0.3)
@@ -89,6 +95,8 @@ def Splay():
                 elif(len(seq)>=5):
                     GPIO.output(leds[s], True)
                     sounds[s].play()
+                    pygame.draw.rect(Simon, colors[s], (10, 10, 780, 460))
+                    pygame.display.update()
                     sleep(0.9)
                     GPIO.output(leds[s], False)
                     sleep(0.4)
@@ -96,6 +104,8 @@ def Splay():
                 else:
                     GPIO.output(leds[s], True)
                     sounds[s].play()
+                    pygame.draw.rect(Simon, colors[s], (10, 10, 780, 460))
+                    pygame.display.update()
                     sleep(1)
                     GPIO.output(leds[s], False)
                     sleep(0.5)

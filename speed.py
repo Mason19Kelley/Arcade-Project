@@ -1,43 +1,53 @@
 import pygame
 import random
 from time import sleep
-colors = ["red", "blue", "green", "yellow"]
+#import RPi.GPIO as GPIO
+import timeit
+import pyglet
+pyglet.font.add_file('ARCADECLASSIC.TTF')
 buttons = []
-pygame.init()
 size = (800, 480)
 red = (255, 0, 0)
 blue = (0, 0, 255)
 green = (0, 255, 0)
 yellow = (255, 255, 0)
 black = (0, 0, 0)
-class Game:
-    def __init__(self, start):
-        self.start = start
-        self.score = 0
-    def play(self):
-        b1 = Board(black)
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    exit()
+white = (255, 255, 255)
+colors = [red, blue, green, yellow]
+state = True
+score = 0
+pressed = False
+#GPIO.setmode(GPIO.BCM)
+#GPIO.setup(buttons, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+def loss():
+    pygame.draw.rect(Speed, black, (10, 10, 780, 460))
+    font = pygame.font.Font('ARCADECLASSIC.TTF', 50)
+    text = font.render("You Failed\nScore: {}".format(score), 1, WHITE)
+    Speed.screen.blit(text, (300, 160))
+def speedPlay():
+    pygame.init()
+    Speed = pygame.display.set_mode((size), 0, 32)
+    pygame.display.set_caption("Speed")
+    Speed.fill(0,0,0)
+    t = randint(0,3)
+    while state:
+        pygame.draw.rect(Speed, colors[t], (10, 10, 780, 460))
+        start = timeit.timeit()
+        while not pressed:
+            for i in range(len(buttons)):
+                if GPIO.input(buttons[i]) == True:
+                    val = i
+                    pressed = True
+        if val == t:
+            end = timeit.timeit() - start
+            score += 1
+            t = randint(0, 3)
+        else:
+            loss()
+speedPlay()
+loss()
 
-            time = random.randint(0, 3)
-            sleep(time)
 
-            # refreshes display each tick
-            pygame.display.flip()
-            # sets number of ticks per second
-            clock.tick(60)
 
-class Board(pygame.sprite.Sprite):
-    def __init__(self, color, width, height):
-        super().__init__()
-        self.image = pygame.Surface([width, height])
-        self.image.fill(black)
-        self.image.set_colorkey(black)
-        pygame.draw.rect(self.image, color, [0, 0, width, height])
-        self.rect = self.image.get_rect()
 
-clock = pygame.time.Clock()
 
