@@ -33,7 +33,7 @@ class SpeedGame:
         pygame.init()
         pygame.display.set_caption("Speed")
         self.speed = pygame.display.set_mode(size)
-        self.speed.fill(black)
+        self.speed.fill(red)
         self.t = random.randint(0,3)
         pygame.display.update()
         while self.state:
@@ -58,12 +58,12 @@ class SpeedGame:
                 self.loss()
 
             # refreshes display each tick
-            pygame.display.update()
+            pygame.display.flip()
             # sets number of ticks per second
             clock.tick(60)
 s1 = SpeedGame()
 clock = pygame.time.Clock()
-#s1.speedPlay()
+s1.speedPlay()
 
 
 
