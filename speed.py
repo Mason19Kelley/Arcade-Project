@@ -1,6 +1,6 @@
 import pygame
 import random
-from time import sleep
+from time import sleep, time
 #import RPi.GPIO as GPIO
 import timeit
 import pyglet
@@ -48,6 +48,10 @@ class SpeedGame:
             text = font2.render(str(self.times), 1, white)
             self.speed.blit(text, (20, 10))
             start = timeit.timeit()
+            start_time = time()
+            myfont = pygame.font.SysFont('Comic Sans MS', 30)
+            text = myfont.render(str(time()-start_time), 1, black)
+            self.speed.blit(text, (100, 100))
             pygame.display.update()
             pressed_keys = pygame.key.get_pressed()
 
