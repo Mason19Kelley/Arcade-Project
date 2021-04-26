@@ -33,7 +33,7 @@ class SpeedGame:
         pygame.init()
         pygame.display.set_caption("Speed")
         self.speed = pygame.display.set_mode(size)
-        self.speed.fill(red)
+        self.speed.fill(black)
         self.t = random.randint(0,3)
         pygame.display.update()
         while self.state:
@@ -47,21 +47,21 @@ class SpeedGame:
             start = timeit.timeit()
             pygame.display.update()
             while not self.pressed:
+                pressed_keys = pygame.key.get_pressed()
+                #for i in range(len(buttons)):
 
-                for i in range(len(buttons)):
-                    pressed_keys = pygame.key.get_pressed()
-                    if pressed_keys[pygame.K_0] == True:
-                        self.val = 0
-                        self.pressed = True
-                    elif pressed_keys[pygame.K_1] == True:
-                        self.val = 1
-                        self.pressed = True
-                    elif pressed_keys[pygame.K_2] == True:
-                        self.val = 2
-                        self.pressed = True
-                    elif pressed_keys[pygame.K_3] == True:
-                        self.val = 3
-                        self.pressed = True
+                if pressed_keys[pygame.K_0] == True:
+                    self.val = 0
+                    self.pressed = True
+                elif pressed_keys[pygame.K_1] == True:
+                    self.val = 1
+                    self.pressed = True
+                elif pressed_keys[pygame.K_2] == True:
+                    self.val = 2
+                    self.pressed = True
+                elif pressed_keys[pygame.K_3] == True:
+                    self.val = 3
+                    self.pressed = True
 
             if self.val == self.t:
                 end = timeit.timeit() - start
