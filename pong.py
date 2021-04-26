@@ -15,87 +15,133 @@ BLUE = (0, 0, 255)
 #creates a pygame window
 size = (800, 480)
 
+boop = pygame.mixer.Sound("pong_bounce.wav")
+pygame.mixer.music.load('pong_bounce.wav')
+
 
 class Game:
     def __init__(self, start):
         self.start = start
         self.score1 = 0
         self.score2 = 0
-
+        self.pause = False
+        self.over = False
+        self.winner = None
+        self.screen = None
     def play(self, ai):
         player2.AI = ai
-        screen = pygame.display.set_mode(size)
         pygame.display.set_caption("Pong")
+        self.screen = pygame.display.set_mode(size)
+        self.over = False
+        previous_key_p = False
         while self.start:
             # quits if x is pressed
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     exit()
-
-            # creates list of pressed keys and using that to determine movement
             pressed_keys = pygame.key.get_pressed()
-            if pressed_keys[pygame.K_w]:
-                player1.moveUp(5)
-            if pressed_keys[pygame.K_s]:
-                player1.moveDown(5)
-            if player2.AI == True:
-                player2.AI_move(ball)
-            else:
-                if pressed_keys[pygame.K_UP]:
-                    player2.moveUp(5)
-                if pressed_keys[pygame.K_DOWN]:
-                    player2.moveDown(5)
+            if pressed_keys[pygame.K_p] and previous_key_p == False:
+                self.pauseMenu()
+            if pressed_keys[pygame.K_r]:
+                self.restart()
 
-            # scoring system if ball touches variable, increments score and resets ball to middle
-            if ball.rect.x >= 790:
-                self.score1 += 1
-                ball.rect.x = 400
-                ball.rect.y = 240
-                ball.x_velo = choice([-2, 2])
-                ball.y_velo = choice([-1, -2, 1, 2])
-            if ball.rect.x <= 0:
-                self.score2 += 1
-                ball.rect.x = 400
-                ball.rect.y = 240
-                ball.x_velo = choice([-2, 2])
-                ball.y_velo = choice([-1, -2, 1, 2])
+            previous_key_p = pressed_keys[pygame.K_p]
+            if self.pause == False:
+                # creates list of pressed keys and using that to determine movement
+                pressed_keys = pygame.key.get_pressed()
+                if pressed_keys[pygame.K_w]:
+                    player1.moveUp(5)
+                if pressed_keys[pygame.K_s]:
+                    player1.moveDown(5)
+                if player2.AI == True:
+                    player2.AI_move(ball)
+                if pressed_keys[pygame.K_r]:
+                    self.restart()
+                if pressed_keys[pygame.K_SPACE]:
+                    pygame.quit()
+                else:
+                    if pressed_keys[pygame.K_UP]:
+                        player2.moveUp(5)
+                    if pressed_keys[pygame.K_DOWN]:
+                        player2.moveDown(5)
 
-            # bounces ball of top or bottom wall
-            if ball.rect.y > 470 or ball.rect.y < 0:
-                ball.y_velo = -ball.y_velo
 
-            # detects collision and reflects ball off board
-            if pygame.sprite.collide_mask(ball, player1) or pygame.sprite.collide_mask(ball, player2):
-                ball.bounce()
+                # scoring system if ball touches variable, increments score and resets ball to middle
+                if ball.rect.x >= 790:
+                    self.score1 += 1
+                    ball.rect.x = 400
+                    ball.rect.y = 240
+                    ball.x_velo = choice([-2, 2])
+                    ball.y_velo = choice([-1, -2, 1, 2])
+                if ball.rect.x <= 0:
+                    self.score2 += 1
+                    ball.rect.x = 400
+                    ball.rect.y = 240
+                    ball.x_velo = choice([-2, 2])
+                    ball.y_velo = choice([-1, -2, 1, 2])
 
-            # refresh method to move ball
-            ball.refresh()
-            # draws background and sprites onto screen each tick
-            screen.fill(BLACK)
-            pygame.draw.line(screen, WHITE, [400, 0], [400, 580], 1)
-            all_sprites_list.update()
-            all_sprites_list.draw(screen)
+                # bounces ball of top or bottom wall
+                if ball.rect.y > 470 or ball.rect.y < 0:
+                    ball.y_velo = -ball.y_velo
 
-            # draws score at top
-            font = pygame.font.Font('ARCADECLASSIC.TTF', 74)
-            text = font.render(str(self.score1), 1, BLUE)
-            screen.blit(text, (300, 10))
-            text = font.render(str(self.score2), 1, BLUE)
-            screen.blit(text, (470, 10))
+                # detects collision and reflects ball off board
+                if pygame.sprite.collide_mask(ball, player1) or pygame.sprite.collide_mask(ball, player2):
+                    ball.bounce()
 
-            self.victory()
-            # refreshes display each tick
-            pygame.display.flip()
-            # sets number of ticks per second
-            clock.tick(60)
+                # refresh method to move ball
+                ball.refresh()
+                # draws background and sprites onto screen each tick
+                self.screen.fill(BLACK)
+                pygame.draw.line(self.screen, WHITE, [400, 0], [400, 580], 1)
+                all_sprites_list.update()
+                all_sprites_list.draw(self.screen)
 
-    def victory(self):
-        if self.score1 == 5:
-            pass
-        elif self.score2 == 5:
-            pass
+                # draws score at top
+                font = pygame.font.Font('ARCADECLASSIC.TTF', 74)
+                text = font.render(str(self.score1), 1, BLUE)
+                self.screen.blit(text, (300, 10))
+                text = font.render(str(self.score2), 1, BLUE)
+                self.screen.blit(text, (470, 10))
+                if self.score1 >= 5:
+                    self.victory("Player 1")
+                elif self.score2 >= 5:
+                    self.victory("Player 2")
+                # refreshes display each tick
+                pygame.display.flip()
+                # sets number of ticks per second
+                clock.tick(60)
+            elif self.over == True:
+                pass
 
+
+
+    def victory(self, winner):
+        self.winner = winner
+        self.over = True
+    def menu(self, text):
+        pygame.draw.rect(self.screen, WHITE, [800 / 2, 480 / 2, 140, 40])
+        font = pygame.font.Font('ARCADECLASSIC.TTF', 74)
+        text1 = font.render(str(text), 1, BLUE)
+        self.screen.blit(text1, (200,200))
+        pygame.display.update()
+    def pauseMenu(self):
+        self.pause = not self.pause
+        self.menu("Hello")
+    def restart(self):
+        self.pause = False
+        self.score1 = 0
+        self.score2 = 0
+        self.over = False
+        self.winner = None
+        player1.rect.x = 30
+        player1.rect.y = 182
+        player2.rect.x = 760
+        player2.rect.y = 182
+        ball.rect.x = 400
+        ball.rect.y = 240
+        ball.x_velo = choice([-2, 2])
+        ball.y_velo = choice([-1, -2, 1, 2])
 #board class inherits from pygame sprite class
 class Board(pygame.sprite.Sprite):
     #constructor
@@ -160,7 +206,7 @@ class Ball(pygame.sprite.Sprite):
     def bounce(self):
         self.x_velo = -self.x_velo
         self.y_velo = randint(-8,8)
-
+        boop.play()
 
 
 
@@ -189,7 +235,7 @@ all_sprites_list.add(ball)
 
 clock = pygame.time.Clock()
 #initial player scores
-
 game = Game(True)
+
 #main program loop
 #game.play(True)
