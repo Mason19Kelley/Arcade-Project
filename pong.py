@@ -45,7 +45,7 @@ def in_pong(ArtI):
                 pressed_keys = pygame.key.get_pressed()
                 if pressed_keys[pygame.K_p] and previous_key_p == False:
                     self.pauseMenu()
-                if pressed_keys[pygame.K_r]:
+                if pressed_keys[pygame.K_r] and self.pause == True:
                     self.restart()
                 if pressed_keys[pygame.K_q]:
                     pygame.quit()
@@ -60,8 +60,6 @@ def in_pong(ArtI):
                         player1.moveDown(5)
                     if player2.AI == True:
                         player2.AI_move(ball)
-                    if pressed_keys[pygame.K_r]:
-                        self.restart()
                     if pressed_keys[pygame.K_SPACE]:
                         pygame.quit()
                     else:
