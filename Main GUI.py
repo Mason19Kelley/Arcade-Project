@@ -1,5 +1,6 @@
 #Main GUI setup for menu
 import pong
+import speed
 from tkinter import *
 import pyglet
 pyglet.font.add_file('ARCADECLASSIC.TTF')
@@ -37,10 +38,10 @@ class MenuScreen(Frame, Canvas):
         button.grid(row = 2, column = 1)
         button = Button(self, text = "Two\nPlayers", font = ('ARCADECLASSIC', 15), height = 2, width = 15, anchor = 'center', bg = 'white', command=lambda: pong.in_pong(False))
         button.grid(row = 3, column = 1)
-        button = Button(self, text = "Start", font = ('ARCADECLASSIC', 15), height = 2, width = 15, anchor = 'center', bg = 'white')
+        button = Button(self, text = "Start", font = ('ARCADECLASSIC', 15), height = 2, width = 15, anchor = 'center', bg = 'white',command=lambda: speed.s1.speedPlay())
         button.grid(row = 2, column = 2)
-        button = Button(self, text = "Leaderboards", font = ('ARCADECLASSIC', 15), height = 2, width = 15, anchor = 'center', bg = 'light grey')
-        button.grid(row = 4)
+        # button = Button(self, text = "Leaderboards", font = ('ARCADECLASSIC', 15), height = 2, width = 15, anchor = 'center', bg = 'light grey')
+        # button.grid(row = 4)
         self.pack(fill = "both", expand = True)
 window = Tk()
 window.title("Arcade")

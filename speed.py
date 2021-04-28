@@ -25,14 +25,18 @@ class SpeedGame:
         self.val = None
         self.t = None
         self.times = 10
+        self.time = 0
+        self.last = 0
     def game_over(self):
-        self.speed_menu(f"{self.scores}", "Press  R  to restart", "Press  Q  to quit")
+        self.speed_menu(f"{sum(self.scores)//len(self.scores)}", "Press  R  to restart", "Press  Q  to quit")
     def speedPlay(self):
         pygame.init()
         pygame.display.set_caption("Speed")
         self.speed = pygame.display.set_mode(size)
         self.speed.fill(black)
         self.t = random.randint(0,3)
+        self.time = pygame.time.get_ticks()
+        self.last = self.time
         pygame.display.update()
         while self.state:
             for event in pygame.event.get():
@@ -45,11 +49,10 @@ class SpeedGame:
                 font2 = pygame.font.Font('ARCADECLASSIC.TTF', 74)
                 text = font2.render(str(self.times), 1, white)
                 self.speed.blit(text, (20, 10))
-                start = timeit.timeit()
-                start_time = time()
-                myfont = pygame.font.SysFont('Comic Sans MS', 30)
-                # text = myfont.render(str(time()-start_time), 1, black)
-                # self.speed.blit(text, (100, 100))
+                start = (pygame.time.get_ticks() - self.last)
+                font2 = pygame.font.Font('ARCADECLASSIC.TTF', 200)
+                text = font2.render(str(start), 1, white)
+                self.speed.blit(text, (250, 135))
                 pygame.display.update()
                 pressed_keys = pygame.key.get_pressed()
 
@@ -68,8 +71,11 @@ class SpeedGame:
 
                 if self.pressed == True:
                         if self.val == self.t:
-                            end = timeit.timeit() - start
-                            self.scores.append(end)
+                            end = (pygame.time.get_ticks() - self.last)
+                            self.last += end
+                            self.last += 1000
+                            print(start)
+                            self.scores.append(start)
                             self.t = random.randint(0, 3)
                             self.speed.fill(black)
                             pygame.display.update()
@@ -93,17 +99,22 @@ class SpeedGame:
         pygame.draw.rect(self.speed, white, (x - 3, y - 3, 600, 300), 1)
         pygame.draw.rect(self.speed, white, (x - 4, y - 4, 600, 300), 1)
         font = pygame.font.Font('ARCADECLASSIC.TTF', 66)
-        text3 = font.render(str(text), 1, red)
+        text3 = font.render(str("Score " + text), 1, red)
         text4 = font.render(str(text1), 1, red)
         text5 = font.render(str(text2), 1, red)
-        self.speed.blit(text3, (108, 100))
+        if sum(self.scores)//len(self.scores) > 1000:
+            self.speed.blit(text3, (237, 100))
+        elif sum(self.scores)//len(self.scores) > 10000:
+            self.speed.blit(text3, (170, 100))
+        else:
+            self.speed.blit(text3, (250, 100))
         self.speed.blit(text4, (112, 200))
         self.speed.blit(text5, (164, 300))
         pygame.display.update()
 
 s1 = SpeedGame()
 clock = pygame.time.Clock()
-s1.speedPlay()
+#s1.speedPlay()
 
 
 
