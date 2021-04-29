@@ -27,6 +27,7 @@ class SpeedGame:
         self.times = 10
         self.time = 0
         self.last = 0
+        self.over = False
     def game_over(self):
         self.speed_menu(f"{sum(self.scores)//len(self.scores)}", "Press  R  to restart", "Press  Q  to quit")
     def speedPlay(self):
@@ -44,6 +45,15 @@ class SpeedGame:
                     pygame.display.quit()
                     pygame.quit()
                     return
+            if self.over == True:
+                pressed_keys = pygame.key.get_pressed()
+                if pressed_keys[pygame.K_d]:
+                    self.restart()
+                if pressed_keys[pygame.K_v]:
+                    pygame.quit()
+                    self.__del__()
+                    return
+
             if self.times > 0:
                 self.speed.fill(colors[self.t])
                 font2 = pygame.font.Font('ARCADECLASSIC.TTF', 74)
@@ -56,16 +66,16 @@ class SpeedGame:
                 pygame.display.update()
                 pressed_keys = pygame.key.get_pressed()
 
-                if pressed_keys[pygame.K_0] == True:
+                if pressed_keys[pygame.K_z] == True:
                     self.val = 0
                     self.pressed = True
-                elif pressed_keys[pygame.K_1] == True:
+                elif pressed_keys[pygame.K_x] == True:
                     self.val = 1
                     self.pressed = True
-                elif pressed_keys[pygame.K_2] == True:
+                elif pressed_keys[pygame.K_c] == True:
                     self.val = 2
                     self.pressed = True
-                elif pressed_keys[pygame.K_3] == True:
+                elif pressed_keys[pygame.K_v] == True:
                     self.val = 3
                     self.pressed = True
 
@@ -110,8 +120,20 @@ class SpeedGame:
             self.speed.blit(text3, (250, 100))
         self.speed.blit(text4, (112, 200))
         self.speed.blit(text5, (164, 300))
+        self.over = True
         pygame.display.update()
 
+    def restart(self):
+        self.pressed = False
+        self.scores = []
+        self.state = True
+        self.val = None
+        self.t = random.randint(0,3)
+        self.times = 10
+        self.time = pygame.time.get_ticks()
+        self.last = self.time
+        self.over = False
+        pygame.display.update()
 s1 = SpeedGame()
 clock = pygame.time.Clock()
 #s1.speedPlay()

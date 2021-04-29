@@ -45,7 +45,7 @@ def in_pong(ArtI):
                 pressed_keys = pygame.key.get_pressed()
                 if pressed_keys[pygame.K_p] and previous_key_p == False:
                     self.pauseMenu()
-                if pressed_keys[pygame.K_r] and self.pause == True:
+                if pressed_keys[pygame.K_d] and self.pause == True:
                     self.restart()
                 if pressed_keys[pygame.K_v] and self.pause == True:
                     pygame.quit()
