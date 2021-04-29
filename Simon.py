@@ -1,15 +1,8 @@
-    #######################################
-#Name: Jordan Hartung
-#Date: 02-27-2021
-#Desc: its the Pimon game(get it) hehe
-#######################################
-
 
 import RPi.GPIO as GPIO
 from time import sleep
 from random import randint
 import pygame
-from tkinter import *
 
 #Set true for debug 
 DEBUG = False
@@ -40,15 +33,16 @@ def lose():
         sleep(0.5)
         all_off()
         sleep(0.5)
-# Game code
-seq = []
-#Generates Starting sequence
-seq.append(randint(0,3))
-seq.append(randint(0,3))
 
-print("Welcome to Simon!")
-print("Try to play the sequence back by pressing the switches.")
-print("Press Ctrl+C to exit...")
+class Simon:
+    def __init__(self):
+        self.state = True
+        self.seq = []
+        self.screen = None
+        self.score = 0
+    def play(self):
+        pass
+
 
 #initiates all game unless keyboard press happens
 def Splay():
