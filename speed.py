@@ -1,8 +1,6 @@
 import pygame
 import random
 from time import sleep, time
-#import RPi.GPIO as GPIO
-import timeit
 import pyglet
 def in_speed():
     pyglet.font.add_file('ARCADECLASSIC.TTF')
