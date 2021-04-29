@@ -44,17 +44,23 @@ class Simon:
             while len(self.player_seq) < len(self.seq):
                 pressed_keys = pygame.key.get_pressed()
                 if pressed_keys[pygame.K_z]:
-                    pass
+                    self.loc += 1
                 if pressed_keys[pygame.K_x]:
-                    pass
+                    self.loc += 1
                 if pressed_keys[pygame.K_c]:
-                    pass
+                    self.loc += 1
                 if pressed_keys[pygame.K_v]:
-                    pass
+                    self.loc += 1
+                if self.player_seq != self.seq[0:self.loc]:
+                    self.game_over()
             pygame.display.flip()
 
             clock.tick(60)
+    def game_over(self):
+        pass
 
+    def restart(self):
+        pass
 
 s1 = Simon()
 s1.play()
