@@ -1,10 +1,9 @@
 import pygame
 import random
-from time import sleep, time
+from time import sleep
 import pyglet
 def in_speed():
     pyglet.font.add_file('ARCADECLASSIC.TTF')
-    buttons = [0,1,2,3]
     size = (800, 480)
     red = (255, 0, 0)
     blue = (0, 0, 255)
@@ -142,10 +141,4 @@ def in_speed():
         s1.speedPlay()
 
     play_speed()
-
-
-
-
-
-
 
