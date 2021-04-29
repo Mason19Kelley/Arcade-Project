@@ -1,7 +1,7 @@
 from random import randint
 import pygame
 import pyglet
-
+from time import sleep
 
 pyglet.font.add_file('ARCADECLASSIC.TTF')
 pygame.init()
@@ -24,6 +24,8 @@ class Simon:
         self.seq = []
         self.screen = None
         self.score = 0
+        self.player_seq = []
+        self.loc = 0
     def play(self):
         pygame.display.set_caption("Simon")
         self.simon = pygame.display.set_mode(size)
@@ -35,7 +37,20 @@ class Simon:
                     pygame.display.quit()
                     pygame.quit()
                     return
-
+            self.seq  += randint(0,3)
+            for i in self.seq:
+                #code that plays sequence
+                sleep(.5)
+            while len(self.player_seq) < len(self.seq):
+                pressed_keys = pygame.key.get_pressed()
+                if pressed_keys[pygame.K_z]:
+                    pass
+                if pressed_keys[pygame.K_x]:
+                    pass
+                if pressed_keys[pygame.K_c]:
+                    pass
+                if pressed_keys[pygame.K_v]:
+                    pass
             pygame.display.flip()
 
             clock.tick(60)
