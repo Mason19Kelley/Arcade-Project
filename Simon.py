@@ -41,7 +41,7 @@ class Simon:
             clock.tick(60)
 
 
-s1=Simon()
+s1 = Simon()
 s1.play()
 
 
