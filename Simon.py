@@ -24,7 +24,7 @@ class Simon:
         self.screen = None
         self.score = 0
         self.player_seq = []
-        self.loc = 0
+        self.loc = 2
         self.go = False
     def seqGen(self, cap):
         for i in range(0, cap):
