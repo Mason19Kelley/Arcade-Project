@@ -14,7 +14,6 @@ yellow = (255, 255, 0)
 black = (0,0,0)
 white = (255,255,255)
 sounds = [pygame.mixer.Sound("do.wav"),pygame.mixer.Sound("re.wav"), pygame.mixer.Sound("sol.wav"),pygame.mixer.Sound("fa.wav")]
-
 clock = pygame.time.Clock()
 
 class Simon:
@@ -26,21 +25,61 @@ class Simon:
         self.score = 0
         self.player_seq = []
         self.loc = 0
+    def seqGen(self, cap):
+        for i in range(0, cap):
+            self.seq.append(randint(0, 3))
     def play(self):
         pygame.display.set_caption("Simon")
         self.simon = pygame.display.set_mode(size)
         self.simon.fill(black)
         pygame.display.update()
+        j = 3
         while self.state:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.display.quit()
                     pygame.quit()
                     return
-            self.seq  += randint(0,3)
-            for i in self.seq:
-                #code that plays sequence
-                sleep(.5)
+                self.seqGen(j)
+                print(self.seq)
+                for i in range(0, len(self.seq)):
+                    if self.seq[i] == 0:
+                        sounds[0].play()
+                        self.simon.fill(red)
+                        sleep(0.1)
+                        pygame.display.update()
+                        self.simon.fill(black)
+                        sleep(1)
+                        pygame.display.update()
+
+                    if self.seq[i] == 1:
+                        sounds[1].play()
+                        self.simon.fill(green)
+                        sleep(0.1)
+                        pygame.display.update()
+                        self.simon.fill(black)
+                        sleep(1)
+                        pygame.display.update()
+
+                    if self.seq[i] == 2:
+                        sounds[2].play()
+                        self.simon.fill(yellow)
+                        sleep(0.1)
+                        pygame.display.update()
+                        self.simon.fill(black)
+                        sleep(1)
+                        pygame.display.update()
+
+                    elif self.seq[i] == 3:
+                        sounds[3].play()
+                        self.simon.fill(blue)
+                        sleep(0.1)
+                        pygame.display.update()
+                        self.simon.fill(black)
+                        sleep(1)
+                        pygame.display.update()
+
+                    #code that plays sequence
             while len(self.player_seq) < len(self.seq):
                 pressed_keys = pygame.key.get_pressed()
                 if pressed_keys[pygame.K_z]:
