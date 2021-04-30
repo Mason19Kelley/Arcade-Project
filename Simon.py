@@ -25,6 +25,7 @@ class Simon:
         self.score = 0
         self.player_seq = []
         self.loc = 0
+        self.go = False
     def seqGen(self, cap):
         for i in range(0, cap):
             self.seq.append(randint(0, 3))
@@ -40,8 +41,9 @@ class Simon:
                     pygame.display.quit()
                     pygame.quit()
                     return
-                self.seqGen(j)
-                print(self.seq)
+            self.seqGen(j)
+            print(self.seq)
+            if self.go == False:
                 for i in range(0, len(self.seq)):
                     if self.seq[i] == 0:
                         sounds[0].play()
@@ -52,7 +54,7 @@ class Simon:
                         sleep(1)
                         pygame.display.update()
 
-                    if self.seq[i] == 1:
+                    elif self.seq[i] == 1:
                         sounds[1].play()
                         self.simon.fill(green)
                         sleep(0.1)
@@ -61,7 +63,7 @@ class Simon:
                         sleep(1)
                         pygame.display.update()
 
-                    if self.seq[i] == 2:
+                    elif self.seq[i] == 2:
                         sounds[2].play()
                         self.simon.fill(yellow)
                         sleep(0.1)
@@ -78,20 +80,26 @@ class Simon:
                         self.simon.fill(black)
                         sleep(1)
                         pygame.display.update()
-
+            self.go == True
                     #code that plays sequence
             while len(self.player_seq) < len(self.seq):
                 pressed_keys = pygame.key.get_pressed()
                 if pressed_keys[pygame.K_z]:
+                    self.player_seq.append(0)
                     self.loc += 1
                 if pressed_keys[pygame.K_x]:
+                    self.player_seq.append(1)
                     self.loc += 1
                 if pressed_keys[pygame.K_c]:
+                    self.player_seq.append(2)
                     self.loc += 1
                 if pressed_keys[pygame.K_v]:
+                    self.player_seq.append(3)
                     self.loc += 1
                 if self.player_seq != self.seq[0:self.loc]:
                     self.game_over()
+            if self.player_seq == self.seq:
+                self.go == False
             pygame.display.flip()
 
             clock.tick(60)
