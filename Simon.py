@@ -80,7 +80,7 @@ class Simon:
                         self.simon.fill(black)
                         sleep(1)
                         pygame.display.update()
-                self.play == False
+                self.play = False
                     #code that plays sequence
             if len(self.player_seq) < len(self.seq):
                 print("F")
