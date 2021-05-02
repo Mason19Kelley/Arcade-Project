@@ -25,11 +25,11 @@ class Simon:
         self.score = 0
         self.player_seq = []
         self.loc = 1
-        self.go = False
+        self.play = True
     def seqGen(self, cap):
         for i in range(0, cap):
             self.seq.append(randint(0, 3))
-    def play(self):
+    def Simonplay(self):
         pygame.display.set_caption("Simon")
         self.simon = pygame.display.set_mode(size)
         self.simon.fill(black)
@@ -43,7 +43,7 @@ class Simon:
                     pygame.quit()
                     return
             print(self.seq)
-            if self.go == False:
+            if self.play == True:
                 for i in range(0, len(self.seq)):
                     if self.seq[i] == 0:
                         sounds[0].play()
@@ -80,7 +80,7 @@ class Simon:
                         self.simon.fill(black)
                         sleep(1)
                         pygame.display.update()
-            self.go == True
+                self.play == False
                     #code that plays sequence
             if len(self.player_seq) < len(self.seq):
                 print("F")
@@ -128,7 +128,7 @@ class Simon:
                 if self.player_seq != self.seq[0:self.loc]:
                     self.game_over()
             if self.player_seq == self.seq:
-                self.go == False
+                self.play == True
                 self.player_seq = []
                 self.seq.append(randint(0,3))
             pygame.display.flip()
@@ -141,7 +141,7 @@ class Simon:
         pass
 
 s1 = Simon()
-s1.play()
+s1.Simonplay()
 
 
 
