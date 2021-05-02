@@ -128,7 +128,7 @@ class Simon:
                 if self.player_seq != self.seq[0:self.loc]:
                     self.game_over()
             if self.player_seq == self.seq:
-                self.play == True
+                self.play = True
                 self.player_seq = []
                 self.seq.append(randint(0,3))
             pygame.display.flip()
