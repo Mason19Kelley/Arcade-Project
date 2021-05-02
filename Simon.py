@@ -135,10 +135,28 @@ class Simon:
 
             clock.tick(60)
     def game_over(self):
-        pass
+        self.score = len(self.seq)
+        self.simon_menu("text", "Press  R  to restart", "Press  Q  to quit" )
 
     def restart(self):
         pass
+
+    def simon_menu(self, text, text1, text2):
+        x = 100
+        y = 100
+        pygame.draw.rect(self.simon, black, (x, y, 600, 600), 0)
+        pygame.draw.rect(self.simon, white, (x - 1, y - 1, 600, 300), 1)
+        pygame.draw.rect(self.simon, white, (x - 2, y - 2, 600, 300), 1)
+        pygame.draw.rect(self.simon, white, (x - 3, y - 3, 600, 300), 1)
+        pygame.draw.rect(self.simon, white, (x - 4, y - 4, 600, 300), 1)
+        font = pygame.font.Font('ARCADECLASSIC.TTF', 66)
+        text3 = font.render(str(text), 1, red)
+        text4 = font.render(str(text1), 1, red)
+        text5 = font.render(str(text2), 1, red)
+        self.simon.blit(text3, (108, 100))
+        self.simon.blit(text4, (112, 200))
+        self.simon.blit(text5, (164, 300))
+        pygame.display.update()
 
 s1 = Simon()
 s1.Simonplay()
