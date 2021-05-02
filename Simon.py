@@ -24,7 +24,7 @@ class Simon:
         self.screen = None
         self.score = 0
         self.player_seq = []
-        self.loc = 2
+        self.loc = 1
         self.go = False
     def seqGen(self, cap):
         for i in range(0, cap):
@@ -35,7 +35,7 @@ class Simon:
         self.simon.fill(black)
         pygame.display.update()
         j = 3
-        self.seqGen(j)
+        self.seqGen(1)
         while self.state:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -82,7 +82,8 @@ class Simon:
                         pygame.display.update()
             self.go == True
                     #code that plays sequence
-            while len(self.player_seq) < len(self.seq):
+            if len(self.player_seq) < len(self.seq):
+                print("F")
                 pressed_keys = pygame.key.get_pressed()
                 if pressed_keys[pygame.K_z]:
                     self.player_seq.append(0)
