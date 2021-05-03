@@ -24,7 +24,6 @@ class Simon:
         self.screen = None
         self.score = 0
         self.player_seq = []
-        self.loc = 1
         self.play = True
     def seqGen(self, cap):
         for i in range(0, cap):
@@ -34,7 +33,6 @@ class Simon:
         self.simon = pygame.display.set_mode(size)
         self.simon.fill(black)
         pygame.display.update()
-        j = 3
         self.seqGen(1)
         while self.state:
             for event in pygame.event.get():
@@ -42,8 +40,9 @@ class Simon:
                     pygame.display.quit()
                     pygame.quit()
                     return
-            print(self.seq)
+            print(self.player_seq)
             if self.play == True:
+                print(self.seq)
                 for i in range(0, len(self.seq)):
                     if self.seq[i] == 0:
                         sounds[0].play()
@@ -83,7 +82,7 @@ class Simon:
                 self.play = False
                     #code that plays sequence
             if len(self.player_seq) < len(self.seq):
-                print("F")
+
                 pressed_keys = pygame.key.get_pressed()
                 if pressed_keys[pygame.K_z]:
                     self.player_seq.append(0)
@@ -94,7 +93,9 @@ class Simon:
                     self.simon.fill(black)
                     sleep(1)
                     pygame.display.update()
-                    self.loc += 1
+                    if self.player_seq != self.seq[0:len(self.player_seq)]:
+                        self.game_over()
+                        self.state = False
                 if pressed_keys[pygame.K_x]:
                     self.player_seq.append(1)
                     sounds[1].play()
@@ -104,7 +105,9 @@ class Simon:
                     self.simon.fill(black)
                     sleep(1)
                     pygame.display.update()
-                    self.loc += 1
+                    if self.player_seq != self.seq[0:len(self.player_seq)]:
+                        self.game_over()
+                        self.state = False
                 if pressed_keys[pygame.K_c]:
                     self.player_seq.append(2)
                     sounds[2].play()
@@ -114,7 +117,9 @@ class Simon:
                     self.simon.fill(black)
                     sleep(1)
                     pygame.display.update()
-                    self.loc += 1
+                    if self.player_seq != self.seq[0:len(self.player_seq)]:
+                        self.game_over()
+                        self.state = False
                 if pressed_keys[pygame.K_v]:
                     self.player_seq.append(3)
                     sounds[3].play()
@@ -124,10 +129,11 @@ class Simon:
                     self.simon.fill(black)
                     sleep(1)
                     pygame.display.update()
-                    self.loc += 1
-                if self.player_seq != self.seq[0:self.loc]:
-                    self.game_over()
+                    if self.player_seq != self.seq[0:len(self.player_seq)]:
+                        self.game_over()
+                        self.state = False
             if self.player_seq == self.seq:
+                print("F")
                 self.play = True
                 self.player_seq = []
                 self.seq.append(randint(0,3))
@@ -135,8 +141,8 @@ class Simon:
 
             clock.tick(60)
     def game_over(self):
-        self.score = len(self.seq)
-        self.simon_menu("text", "Press  R  to restart", "Press  Q  to quit" )
+        self.score = len(self.seq)-1
+        self.simon_menu(f"     {self.score}", "Press  R  to restart", "Press  Q  to quit" )
 
     def restart(self):
         pass
