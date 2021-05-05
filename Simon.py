@@ -139,6 +139,7 @@ def in_simon():
                             self.game_over()
                             self.over = True
                 if self.player_seq == self.seq:
+                    self.score += 1
                     self.play = True
                     self.player_seq = []
                     self.seq.append(randint(0,3))
@@ -146,7 +147,7 @@ def in_simon():
 
                 clock.tick(60)
         def game_over(self):
-            self.score = len(self.seq)-1
+            self.score = len(self.seq)-3
             self.simon_menu(f"           Final  Score  {self.score}", "Press  D  to restart", "Press  V  to quit" )
 
         def restart(self):
