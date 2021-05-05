@@ -36,16 +36,14 @@ class MenuScreen(Frame, Canvas):
         self.display = Label(self, image = img , height = 245, width = 272, anchor = 'center', bg = 'deep sky blue')
         self.display.image = img
         self.display.grid(row = 1, column = 2)
-        button = Button(self, text = "Start", font = ('ARCADECLASSIC', 15), height = 2, width = 15, anchor = 'center', bg = 'white', command = lambda: Simon.Splay())
+        button = Button(self, text = "Start", font = ('ARCADECLASSIC', 15), height = 2, width = 15, anchor = 'center', bg = 'white', command = lambda: Simon.in_simon())
         button.grid(row = 2, column = 0)
-        button = Button(self, text = "One\nPlayer", font = ('ARCADECLASSIC', 15), height = 2, width = 15, anchor = 'center', bg = 'white', command= lambda: pong.game.play(True))
+        button = Button(self, text = "One\nPlayer", font = ('ARCADECLASSIC', 15), height = 2, width = 15, anchor = 'center', bg = 'white', command= lambda: pong.in_pong(True))
         button.grid(row = 2, column = 1)
-        button = Button(self, text = "Two\nPlayers", font = ('ARCADECLASSIC', 15), height = 2, width = 15, anchor = 'center', bg = 'white', command = lambda: pong.game.play(False))
+        button = Button(self, text = "Two\nPlayers", font = ('ARCADECLASSIC', 15), height = 2, width = 15, anchor = 'center', bg = 'white', command = lambda: pong.in_pong(False))
         button.grid(row = 3, column = 1)
-        button = Button(self, text = "Start", font = ('ARCADECLASSIC', 15), height = 2, width = 15, anchor = 'center', bg = 'white', command = lambda: speed.speedPlay())
+        button = Button(self, text = "Start", font = ('ARCADECLASSIC', 15), height = 2, width = 15, anchor = 'center', bg = 'white', command = lambda: speed.in_speed())
         button.grid(row = 2, column = 2)
-        button = Button(self, text = "Leaderboards", font = ('ARCADECLASSIC', 15), height = 2, width = 15, anchor = 'center', bg = 'light grey')
-        button.grid(row = 4)
         self.pack(fill = "both", expand = True)
 
     def pongMenu(self):

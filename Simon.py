@@ -34,7 +34,7 @@ def in_simon():
             self.simon = pygame.display.set_mode(size)
             self.simon.fill(black)
             pygame.display.update()
-            self.seqGen(1)
+            self.seqGen(3)
             while self.state:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
