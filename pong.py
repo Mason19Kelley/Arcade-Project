@@ -256,5 +256,3 @@ def in_pong(ArtI):
         game.play(AI)
 
     pong_play(ArtI)
-    #main program loop
-    #game.play(True)

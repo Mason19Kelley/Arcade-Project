@@ -141,4 +141,3 @@ def in_speed():
         s1.speedPlay()
 
     play_speed()
-
