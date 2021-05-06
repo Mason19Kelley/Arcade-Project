@@ -49,7 +49,7 @@ def in_simon():
                         pygame.quit()
                         return
                 pressed_keys = pygame.key.get_pressed()
-                if GPIO.input(switches[4]) == True and self.over == True:
+                if pressed_keys[pygame.K_v] and self.over == True:
                     pygame.quit()
                     self.__del__()
                     return
