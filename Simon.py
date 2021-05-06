@@ -49,7 +49,7 @@ def in_simon():
                         pygame.quit()
                         return
                 pressed_keys = pygame.key.get_pressed()
-                if pressed_keys[pygame.K_v] and self.over == True:
+                if GPIO.input(switches[4]) == True and self.over == True:
                     pygame.quit()
                     self.__del__()
                     return
@@ -109,65 +109,22 @@ def in_simon():
                         for i in range(len(switches)):
                             while GPIO.input(switches[i])==True):
                                 val = i
+                                self.player_seq.append(val)
                                 pressed = True
                     GPIO.output(leds[val], True)
                     sounds[val].play()
                     sleep(1)
                     GPIO.output(leds[val], False)
                     sleep(0.25)
-                        self.player_seq.append(0)
-                        sounds[0].play()
-                        self.simon.fill(red)
-                        sleep(0.1)
-                        pygame.display.update()
-                        self.simon.fill(black)
-                        sleep(1)
-                        pygame.display.update()
-                        if self.player_seq != self.seq[0:len(self.player_seq)]:
-                            self.game_over()
-                            self.over = True
-                    if pressed_keys[pygame.K_x]:
-                        self.player_seq.append(1)
-                        sounds[1].play()
-                        self.simon.fill(green)
-                        sleep(0.1)
-                        pygame.display.update()
-                        self.simon.fill(black)
-                        sleep(1)
-                        pygame.display.update()
-                        if self.player_seq != self.seq[0:len(self.player_seq)]:
-                            self.game_over()
-                            self.over = True
-                    if pressed_keys[pygame.K_c]:
-                        self.player_seq.append(2)
-                        sounds[2].play()
-                        self.simon.fill(yellow)
-                        sleep(0.1)
-                        pygame.display.update()
-                        self.simon.fill(black)
-                        sleep(1)
-                        pygame.display.update()
-                        if self.player_seq != self.seq[0:len(self.player_seq)]:
-                            self.game_over()
-                            self.over = True
-                    if pressed_keys[pygame.K_v]:
-                        self.player_seq.append(3)
-                        sounds[3].play()
-                        self.simon.fill(blue)
-                        sleep(0.1)
-                        pygame.display.update()
-                        self.simon.fill(black)
-                        sleep(1)
-                        pygame.display.update()
-                        if self.player_seq != self.seq[0:len(self.player_seq)]:
-                            self.game_over()
-                            self.over = True
-                if self.player_seq == self.seq:
-                    self.score += 1
-                    self.play = True
-                    self.player_seq = []
-                    self.seq.append(randint(0,3))
-                pygame.display.flip()
+                    if self.player_seq != self.seq[0:len(self.player_seq)]:
+                        self.game_over()
+                        self.over = True
+                    if self.player_seq == self.seq:
+                        self.score += 1
+                        self.play = True
+                        self.player_seq = []
+                        self.seq.append(randint(0,3))
+                    pygame.display.flip()
 
                 clock.tick(60)
         def game_over(self):
