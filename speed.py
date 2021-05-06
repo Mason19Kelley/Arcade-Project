@@ -8,6 +8,8 @@ leds = [5, 24, 26, 12, 16]
 switches = [4, 25, 27, 6, 13]
 GPIO.setup(leds, GPIO.OUT)
 GPIO.setup(switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+for i in leds:
+    GPIO.output(leds, True)
 def in_speed():
     pyglet.font.add_file('ARCADECLASSIC.TTF')
     size = (800, 480)
@@ -17,10 +19,8 @@ def in_speed():
     yellow = (255, 255, 0)
     black = (0, 0, 0)
     white = (255, 255, 255)
-    colors = [red, blue, green, yellow]
+    colors = [red, green, yellow, blue]
     clock = pygame.time.Clock()
-    #GPIO.setmode(GPIO.BCM)
-    #GPIO.setup(buttons, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     class SpeedGame:
         def __init__(self):
             self.pressed = False

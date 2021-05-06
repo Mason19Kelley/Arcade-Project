@@ -8,6 +8,8 @@ leds = [5, 24, 26, 12, 16]
 switches = [4, 25, 27, 6, 13]
 GPIO.setup(leds, GPIO.OUT)
 GPIO.setup(switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+for i in leds:
+    GPIO.output(leds, True)
 def in_pong(ArtI):
     pyglet.font.add_file('ARCADECLASSIC.TTF')
     #initializes pygame

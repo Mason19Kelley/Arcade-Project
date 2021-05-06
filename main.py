@@ -6,8 +6,11 @@ import pong
 import pygame
 import speed
 import Simon
+import RPi.GPIO as GPIO
 pyglet.font.add_file('ARCADECLASSIC.TTF')
 pygame.init()
+for i in leds:
+    GPIO.output(leds, True)
 
 class MenuScreen(Frame, Canvas):
     def __init__(self, container):
