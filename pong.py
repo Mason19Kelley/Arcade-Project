@@ -2,6 +2,7 @@
 import pygame
 from random import randint, choice
 import pyglet
+import RPI.GPIO as GPIO
 def in_pong(ArtI):
     pyglet.font.add_file('ARCADECLASSIC.TTF')
     #initializes pygame

@@ -2,6 +2,12 @@ from random import randint
 import pygame
 import pyglet
 from time import sleep
+import RPI.GPIO as GPIO
+GPIO.setmode(GPIO.BCM)
+leds = [5, 24, 26, 12, 16]
+switches = [4, 25, 27, 6, 13]
+GPIO.setup(leds, GPIO.OUT)
+GPIO.setup(switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 def in_simon():
     pyglet.font.add_file('ARCADECLASSIC.TTF')
     pygame.init()
@@ -15,6 +21,7 @@ def in_simon():
     white = (255,255,255)
     sounds = [pygame.mixer.Sound("do.wav"),pygame.mixer.Sound("re.wav"), pygame.mixer.Sound("sol.wav"),pygame.mixer.Sound("fa.wav")]
     clock = pygame.time.Clock()
+
 
     class Simon:
         def __init__(self):
@@ -53,44 +60,61 @@ def in_simon():
                     for i in range(0, len(self.seq)):
                         if self.seq[i] == 0:
                             sounds[0].play()
+                            GPIO.output(leds[0], True)
                             self.simon.fill(red)
                             sleep(0.1)
                             pygame.display.update()
                             self.simon.fill(black)
                             sleep(1)
+                            GPIO.output(leds[0], False)
                             pygame.display.update()
 
                         elif self.seq[i] == 1:
                             sounds[1].play()
+                            GPIO.output(leds[1], True)
                             self.simon.fill(green)
                             sleep(0.1)
                             pygame.display.update()
                             self.simon.fill(black)
                             sleep(1)
+                            GPIO.output(leds[1], False)
                             pygame.display.update()
 
                         elif self.seq[i] == 2:
                             sounds[2].play()
+                            GPIO.output(leds[2], True)
                             self.simon.fill(yellow)
                             sleep(0.1)
                             pygame.display.update()
                             self.simon.fill(black)
                             sleep(1)
+                            GPIO.output(leds[2], False)
                             pygame.display.update()
 
                         elif self.seq[i] == 3:
                             sounds[3].play()
+                            GPIO.output(leds[3], True)
                             self.simon.fill(blue)
                             sleep(0.1)
                             pygame.display.update()
                             self.simon.fill(black)
                             sleep(1)
+                            GPIO.output(leds[3], False)
                             pygame.display.update()
                     self.play = False
                         #code that plays sequence
-                if len(self.player_seq) < len(self.seq) and self.over == False:
-                    pressed_keys = pygame.key.get_pressed()
-                    if pressed_keys[pygame.K_z]:
+                while len(self.player_seq) < len(self.seq) and self.over == False:
+                    pressed = False
+                    while (not pressed):
+                        for i in range(len(switches)):
+                            while GPIO.input(switches[i])==True):
+                                val = i
+                                pressed = True
+                    GPIO.output(leds[val], True)
+                    sounds[val].play()
+                    sleep(1)
+                    GPIO.output(leds[val], False)
+                    sleep(0.25)
                         self.player_seq.append(0)
                         sounds[0].play()
                         self.simon.fill(red)

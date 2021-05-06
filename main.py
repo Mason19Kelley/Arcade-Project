@@ -6,6 +6,7 @@ import pong
 import pygame
 import speed
 import Simon
+import RPI.GPIO as GPIO
 pyglet.font.add_file('ARCADECLASSIC.TTF')
 pygame.init()
 
