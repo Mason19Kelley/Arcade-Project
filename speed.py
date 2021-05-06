@@ -3,6 +3,11 @@ import random
 from time import sleep
 import pyglet
 import RPI.GPIO as GPIO
+GPIO.setmode(GPIO.BCM)
+leds = [5, 24, 26, 12, 16]
+switches = [4, 25, 27, 6, 13]
+GPIO.setup(leds, GPIO.OUT)
+GPIO.setup(switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 def in_speed():
     pyglet.font.add_file('ARCADECLASSIC.TTF')
     size = (800, 480)
@@ -66,16 +71,16 @@ def in_speed():
                     pygame.display.update()
                     pressed_keys = pygame.key.get_pressed()
 
-                    if pressed_keys[pygame.K_z] == True:
+                    if GPIO.input(switches[0]) == True:
                         self.val = 0
                         self.pressed = True
-                    elif pressed_keys[pygame.K_x] == True:
+                    elif GPIO.input(switches[1]) == True:
                         self.val = 1
                         self.pressed = True
-                    elif pressed_keys[pygame.K_c] == True:
+                    elif GPIO.input(switches[2]) == True:
                         self.val = 2
                         self.pressed = True
-                    elif pressed_keys[pygame.K_v] == True:
+                    elif GPIO.input(switches[3]) == True:
                         self.val = 3
                         self.pressed = True
 

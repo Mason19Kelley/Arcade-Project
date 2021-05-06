@@ -3,6 +3,11 @@ import pygame
 from random import randint, choice
 import pyglet
 import RPI.GPIO as GPIO
+GPIO.setmode(GPIO.BCM)
+leds = [5, 24, 26, 12, 16]
+switches = [4, 25, 27, 6, 13]
+GPIO.setup(leds, GPIO.OUT)
+GPIO.setup(switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 def in_pong(ArtI):
     pyglet.font.add_file('ARCADECLASSIC.TTF')
     #initializes pygame
@@ -56,16 +61,16 @@ def in_pong(ArtI):
                 if self.pause == False:
                     # creates list of pressed keys and using that to determine movement
                     pressed_keys = pygame.key.get_pressed()
-                    if pressed_keys[pygame.K_z]:
+                    if GPIO.input(switches[0]) == True:
                         player1.moveUp(5)
-                    if pressed_keys[pygame.K_x]:
+                    if GPIO.input(switches[3]) == True:
                         player1.moveDown(5)
                     if player2.AI == True:
                         player2.AI_move(ball)
                     else:
-                        if pressed_keys[pygame.K_v]:
+                        if GPIO.input(switches[1]) == True:
                             player2.moveUp(5)
-                        if pressed_keys[pygame.K_c]:
+                        if GPIO.input(switches[2]) == True:
                             player2.moveDown(5)
 
 
