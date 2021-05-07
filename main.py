@@ -49,14 +49,12 @@ class MenuScreen(Frame, Canvas):
         button.grid(row = 2, column = 2)
         self.pack(fill = "both", expand = True)
 
-    def pongMenu(self):
-        pass
-
 window = Tk()
 window.title("Arcade")
 WIDTH = 800
 HEIGHT = 480
 window.geometry("{}x{}".format(WIDTH, HEIGHT))
 a1 = MenuScreen(window)
+while True:
 
-window.mainloop()
+    window.mainloop()

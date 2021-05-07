@@ -2,7 +2,7 @@
 import pygame
 from random import randint, choice
 import pyglet
-import RPI.GPIO as GPIO
+import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BCM)
 leds = [5, 24, 26, 12, 16]
 switches = [4, 25, 27, 6, 13]

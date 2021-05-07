@@ -105,9 +105,9 @@ def in_simon():
                             pygame.display.update()
                     self.play = False
                         #code that plays sequence
-                while len(self.player_seq) < len(self.seq) and self.over == False:
+                if len(self.player_seq) < len(self.seq) and self.over == False:
                     pressed = False
-                    while (not pressed):
+                    if (not pressed):
                         for i in range(len(switches)):
                             while GPIO.input(switches[i])==True):
                                 val = i
