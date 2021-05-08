@@ -2,14 +2,10 @@ from random import randint
 import pygame
 import pyglet
 from time import sleep
-import RPI.GPIO as GPIO
+import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BCM)
-leds = [5, 24, 26, 12, 16]
 switches = [4, 25, 27, 6, 13]
-GPIO.setup(leds, GPIO.OUT)
 GPIO.setup(switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-or i in leds:
-    GPIO.output(leds, False)
 def in_simon():
     pyglet.font.add_file('ARCADECLASSIC.TTF')
     pygame.init()
@@ -51,73 +47,96 @@ def in_simon():
                         pygame.quit()
                         return
                 pressed_keys = pygame.key.get_pressed()
-                if pressed_keys[pygame.K_v] and self.over == True:
+                if GPIO.input(switches[2]) and self.over == True:
                     pygame.quit()
                     self.__del__()
                     return
-                if pressed_keys[pygame.K_d] and self.over == True:
+                if GPIO.input(switches[4]) and self.over == True:
                     self.restart()
+                print("h")
                 if self.play == True:
                     print(self.seq)
                     for i in range(0, len(self.seq)):
                         if self.seq[i] == 0:
                             sounds[0].play()
-                            GPIO.output(leds[0], True)
                             self.simon.fill(red)
                             sleep(0.1)
                             pygame.display.update()
                             self.simon.fill(black)
                             sleep(1)
-                            GPIO.output(leds[0], False)
                             pygame.display.update()
 
                         elif self.seq[i] == 1:
                             sounds[1].play()
-                            GPIO.output(leds[1], True)
+                            
                             self.simon.fill(green)
                             sleep(0.1)
                             pygame.display.update()
                             self.simon.fill(black)
                             sleep(1)
-                            GPIO.output(leds[1], False)
+                            
                             pygame.display.update()
 
                         elif self.seq[i] == 2:
                             sounds[2].play()
-                            GPIO.output(leds[2], True)
+                            
                             self.simon.fill(yellow)
                             sleep(0.1)
                             pygame.display.update()
                             self.simon.fill(black)
                             sleep(1)
-                            GPIO.output(leds[2], False)
+                            
                             pygame.display.update()
 
                         elif self.seq[i] == 3:
                             sounds[3].play()
-                            GPIO.output(leds[3], True)
+                            
                             self.simon.fill(blue)
                             sleep(0.1)
                             pygame.display.update()
                             self.simon.fill(black)
                             sleep(1)
-                            GPIO.output(leds[3], False)
+                            
                             pygame.display.update()
                     self.play = False
-                        #code that plays sequence
+      #code that plays sequence
                 if len(self.player_seq) < len(self.seq) and self.over == False:
-                    pressed = False
-                    if (not pressed):
-                        for i in range(len(switches)):
-                            while GPIO.input(switches[i])==True):
-                                val = i
-                                self.player_seq.append(val)
-                                pressed = True
-                    GPIO.output(leds[val], True)
-                    sounds[val].play()
-                    sleep(1)
-                    GPIO.output(leds[val], False)
-                    sleep(0.25)
+                    if GPIO.input(switches[0]):
+                        self.player_seq.append(0)
+                        sounds[0].play()
+                        self.simon.fill(red)
+                        sleep(0.1)
+                        pygame.display.update()
+                        self.simon.fill(black)
+                        sleep(1)
+                        pygame.display.update()
+                    if GPIO.input(switches[1]):
+                        self.player_seq.append(1)
+                        sounds[1].play()
+                        self.simon.fill(green)
+                        sleep(0.1)
+                        pygame.display.update()
+                        self.simon.fill(black)
+                        sleep(1)
+                        pygame.display.update()
+                    if GPIO.input(switches[2]):
+                        self.player_seq.append(2)
+                        sounds[2].play()
+                        self.simon.fill(yellow)
+                        sleep(0.1)
+                        pygame.display.update()
+                        self.simon.fill(black)
+                        sleep(1)
+                        pygame.display.update()
+                    if GPIO.input(switches[3]):
+                        self.player_seq.append(3)
+                        sounds[3].play()
+                        self.simon.fill(blue)
+                        sleep(0.1)
+                        pygame.display.update()
+                        self.simon.fill(black)
+                        sleep(1)
+                        pygame.display.update()
                     if self.player_seq != self.seq[0:len(self.player_seq)]:
                         self.game_over()
                         self.over = True
@@ -131,7 +150,7 @@ def in_simon():
                 clock.tick(60)
         def game_over(self):
             self.score = len(self.seq)-3
-            self.simon_menu(f"           Final  Score  {self.score}", "Press  D  to restart", "Press  V  to quit" )
+            self.simon_menu(f"           Final  Score  {self.score}", "Press  WHITE  to restart", "Press  YELLOW  to quit" )
 
         def restart(self):
             self.state = True
@@ -139,6 +158,7 @@ def in_simon():
             self.simon.fill(black)
             pygame.display.update()
             self.seq = []
+            self.seqGen(3)
             self.screen = None
             self.score = 0
             self.player_seq = []
@@ -154,13 +174,13 @@ def in_simon():
             pygame.draw.rect(self.simon, white, (x - 2, y - 2, 600, 300), 1)
             pygame.draw.rect(self.simon, white, (x - 3, y - 3, 600, 300), 1)
             pygame.draw.rect(self.simon, white, (x - 4, y - 4, 600, 300), 1)
-            font = pygame.font.Font('ARCADECLASSIC.TTF', 66)
+            font = pygame.font.Font('ARCADECLASSIC.TTF', 50)
             text3 = font.render(str(text), 1, red)
-            text4 = font.render(str(text1), 1, red)
-            text5 = font.render(str(text2), 1, red)
-            self.simon.blit(text3, (108, 100))
-            self.simon.blit(text4, (112, 200))
-            self.simon.blit(text5, (164, 300))
+            text4 = font.render(str(text1), 1, white)
+            text5 = font.render(str(text2), 1, yellow)
+            self.simon.blit(text3, (160, 125))
+            self.simon.blit(text4, (120, 225))
+            self.simon.blit(text5, (160, 325))
             pygame.display.update()
 
         def __del__(self):

@@ -7,10 +7,9 @@ import pygame
 import speed
 import Simon
 import RPi.GPIO as GPIO
-pyglet.font.add_file('ARCADECLASSIC.TTF')
 pygame.init()
-for i in leds:
-    GPIO.output(leds, True)
+
+
 
 class MenuScreen(Frame, Canvas):
     def __init__(self, container):
@@ -40,21 +39,20 @@ class MenuScreen(Frame, Canvas):
         self.display.image = img
         self.display.grid(row = 1, column = 2)
         button = Button(self, text = "Start", font = ('ARCADECLASSIC', 15), height = 2, width = 15, anchor = 'center', bg = 'white', command = lambda: Simon.in_simon())
-        button.grid(row = 2, column = 0)
+        button.grid(row = 3, column = 0)
         button = Button(self, text = "One\nPlayer", font = ('ARCADECLASSIC', 15), height = 2, width = 15, anchor = 'center', bg = 'white', command= lambda: pong.in_pong(True))
-        button.grid(row = 2, column = 1)
-        button = Button(self, text = "Two\nPlayers", font = ('ARCADECLASSIC', 15), height = 2, width = 15, anchor = 'center', bg = 'white', command = lambda: pong.in_pong(False))
         button.grid(row = 3, column = 1)
+        button = Button(self, text = "Two\nPlayers", font = ('ARCADECLASSIC', 15), height = 2, width = 15, anchor = 'center', bg = 'white', command = lambda: pong.in_pong(False))
+        button.grid(row = 4, column = 1)
         button = Button(self, text = "Start", font = ('ARCADECLASSIC', 15), height = 2, width = 15, anchor = 'center', bg = 'white', command = lambda: speed.in_speed())
-        button.grid(row = 2, column = 2)
+        button.grid(row = 3, column = 2)
         self.pack(fill = "both", expand = True)
+
 
 window = Tk()
 window.title("Arcade")
 WIDTH = 800
-HEIGHT = 480
+HEIGHT = 455
 window.geometry("{}x{}".format(WIDTH, HEIGHT))
 a1 = MenuScreen(window)
-while True:
-
-    window.mainloop()
+window.mainloop()

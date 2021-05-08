@@ -2,14 +2,11 @@ import pygame
 import random
 from time import sleep
 import pyglet
-import RPI.GPIO as GPIO
+import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BCM)
 leds = [5, 24, 26, 12, 16]
 switches = [4, 25, 27, 6, 13]
-GPIO.setup(leds, GPIO.OUT)
 GPIO.setup(switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-for i in leds:
-    GPIO.output(leds, True)
 def in_speed():
     pyglet.font.add_file('ARCADECLASSIC.TTF')
     size = (800, 480)
@@ -34,7 +31,7 @@ def in_speed():
             self.last = 0
             self.over = False
         def game_over(self):
-            self.speed_menu(f"{sum(self.scores)//len(self.scores)}", "Press  R  to restart", "Press  Q  to quit")
+            self.speed_menu(f"{sum(self.scores)//len(self.scores)}", "Press  White  to restart", "Press  Yellow  to quit")
         def speedPlay(self):
             pygame.init()
             pygame.display.set_caption("Speed")
@@ -52,9 +49,10 @@ def in_speed():
                         return
                 if self.over == True:
                     pressed_keys = pygame.key.get_pressed()
-                    if pressed_keys[pygame.K_d]:
+                    if GPIO.input(switches[4]):
                         self.restart()
-                    if pressed_keys[pygame.K_v]:
+                        
+                    if GPIO.input(switches[2]):
                         pygame.quit()
                         self.__del__()
                         return
@@ -113,18 +111,18 @@ def in_speed():
             pygame.draw.rect(self.speed, white, (x - 2, y - 2, 600, 300), 1)
             pygame.draw.rect(self.speed, white, (x - 3, y - 3, 600, 300), 1)
             pygame.draw.rect(self.speed, white, (x - 4, y - 4, 600, 300), 1)
-            font = pygame.font.Font('ARCADECLASSIC.TTF', 66)
+            font = pygame.font.Font('ARCADECLASSIC.TTF', 50)
             text3 = font.render(str("Score " + text), 1, red)
-            text4 = font.render(str(text1), 1, red)
-            text5 = font.render(str(text2), 1, red)
+            text4 = font.render(str(text1), 1, white)
+            text5 = font.render(str(text2), 1, yellow)
             if sum(self.scores)//len(self.scores) > 1000:
-                self.speed.blit(text3, (237, 100))
+                self.speed.blit(text3, (267, 125))
             elif sum(self.scores)//len(self.scores) > 10000:
-                self.speed.blit(text3, (170, 100))
+                self.speed.blit(text3, (200, 125))
             else:
-                self.speed.blit(text3, (250, 100))
-            self.speed.blit(text4, (112, 200))
-            self.speed.blit(text5, (164, 300))
+                self.speed.blit(text3, (280, 125))
+            self.speed.blit(text4, (122, 225))
+            self.speed.blit(text5, (150, 325))
             self.over = True
             pygame.display.update()
 

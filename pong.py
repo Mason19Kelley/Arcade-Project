@@ -20,8 +20,9 @@ def in_pong(ArtI):
     WHITE = (255, 255, 255)
     BLUE = (0, 0, 255)
     RED = (255, 0, 0)
+    YELLOW = (255, 255, 0)
     #creates a pygame window
-    size = (800, 480)
+    size = (800, 455)
 
     boop = pygame.mixer.Sound("pong_bounce.wav")
     pygame.mixer.music.load('pong_bounce.wav')
@@ -48,18 +49,21 @@ def in_pong(ArtI):
                     if event.type == pygame.QUIT:
                         pygame.display.quit()
                         pygame.quit()
+                        
                         self.__del__()
                         return
                 pressed_keys = pygame.key.get_pressed()
-                if pressed_keys[pygame.K_p] and previous_key_p == False:
+                if GPIO.input(switches[4]) and previous_key_p == False:
                     self.pauseMenu()
-                if pressed_keys[pygame.K_d] and self.pause == True:
+                if GPIO.input(switches[0]) and self.pause == True:
                     self.restart()
-                if pressed_keys[pygame.K_v] and self.pause == True:
+                    
+                if GPIO.input(switches[2]) and self.pause == True:
                     pygame.quit()
+                    
                     self.__del__()
                     return
-                previous_key_p = pressed_keys[pygame.K_p]
+                previous_key_p = GPIO.input(switches[4])
                 if self.pause == False:
                     # creates list of pressed keys and using that to determine movement
                     pressed_keys = pygame.key.get_pressed()
@@ -80,18 +84,18 @@ def in_pong(ArtI):
                     if ball.rect.x >= 790:
                         self.score1 += 1
                         ball.rect.x = 400
-                        ball.rect.y = 240
+                        ball.rect.y = 227
                         ball.x_velo = choice([-2, 2])
                         ball.y_velo = choice([-1, -2, 1, 2])
                     if ball.rect.x <= 0:
                         self.score2 += 1
                         ball.rect.x = 400
-                        ball.rect.y = 240
+                        ball.rect.y = 227
                         ball.x_velo = choice([-2, 2])
                         ball.y_velo = choice([-1, -2, 1, 2])
 
                     # bounces ball of top or bottom wall
-                    if ball.rect.y > 470 or ball.rect.y < 0:
+                    if ball.rect.y > 445 or ball.rect.y < 0:
                         ball.y_velo = -ball.y_velo
 
                     # detects collision and reflects ball off board
@@ -122,7 +126,7 @@ def in_pong(ArtI):
                     clock.tick(60)
                 if self.over == True:
                     self.pause = True
-                    self.menu(f"    {self.winner} wins!   ", "Press  R  to restart", "Press  Q  to quit")
+                    self.menu(f"                {self.winner} wins!   ", "Press  Red  to restart", "Press  Yellow  to quit")
 
 
 
@@ -138,17 +142,17 @@ def in_pong(ArtI):
             pygame.draw.rect(self.screen, WHITE, (x - 2, y - 2, 600, 300), 1)
             pygame.draw.rect(self.screen, WHITE, (x - 3, y - 3, 600, 300), 1)
             pygame.draw.rect(self.screen, WHITE, (x - 4, y - 4, 600, 300), 1)
-            font = pygame.font.Font('ARCADECLASSIC.TTF', 66)
-            text3 = font.render(str(text), 1, RED)
+            font = pygame.font.Font('ARCADECLASSIC.TTF', 50)
+            text3 = font.render(str(text), 1, WHITE)
             text4 = font.render(str(text1), 1, RED)
-            text5 = font.render(str(text2), 1, RED)
-            self.screen.blit(text3, (108,100))
-            self.screen.blit(text4, (112, 200))
-            self.screen.blit(text5, (164, 300))
+            text5 = font.render(str(text2), 1, YELLOW)
+            self.screen.blit(text3, (120,125))
+            self.screen.blit(text4, (150, 225))
+            self.screen.blit(text5, (150, 325))
             pygame.display.update()
         def pauseMenu(self):
             self.pause = not self.pause
-            self.menu("Press P  to  unpause", "Press  R  to restart", "Press  Q  to quit")
+            self.menu("Press White  to  unpause", "Press  Red  to restart", "Press  Yellow  to quit")
         def restart(self):
             self.pause = False
             self.score1 = 0
@@ -160,7 +164,7 @@ def in_pong(ArtI):
             player2.rect.x = 760
             player2.rect.y = 182
             ball.rect.x = 400
-            ball.rect.y = 240
+            ball.rect.y = 227
             ball.x_velo = choice([-2, 2])
             ball.y_velo = choice([-1, -2, 1, 2])
 
@@ -190,8 +194,8 @@ def in_pong(ArtI):
         #moves sprite down
         def moveDown(self, pixels):
             self.rect.y += pixels
-            if self.rect.y > 380:
-                 self.rect.y = 380
+            if self.rect.y > 355:
+                 self.rect.y = 355
 
         def AI_move(self, ball):
             if ball.rect.y > self.rect.y:
@@ -201,8 +205,8 @@ def in_pong(ArtI):
 
             self.rect.y += self.AISpeed
 
-            if self.rect.y > 380:
-                self.rect.y = 380
+            if self.rect.y > 355:
+                self.rect.y = 355
             if self.rect.y < 0:
                 self.rect.y = 0
 
@@ -237,18 +241,18 @@ def in_pong(ArtI):
     #player 1 instanciating
     player1 = Board(WHITE, 10, 100)
     player1.rect.x = 30
-    player1.rect.y = 182
+    player1.rect.y = 157
 
     #player 2 instanciating
     player2 = Board(WHITE, 10, 100)
     player2.rect.x = 760
-    player2.rect.y = 182
+    player2.rect.y = 157
     player2.AI = True
 
     #ball instanciation
     ball = Ball(WHITE, 7, 7)
     ball.rect.x = 400
-    ball.rect.y = 240
+    ball.rect.y = 215
 
     #initializes list of sprites and adds all instances to it
     all_sprites_list = pygame.sprite.Group()
