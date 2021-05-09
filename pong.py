@@ -3,6 +3,7 @@ import pygame
 from random import randint, choice
 import pyglet
 import RPi.GPIO as GPIO
+from time import sleep
 GPIO.setmode(GPIO.BCM)
 leds = [5, 24, 26, 12, 16]
 switches = [4, 25, 27, 6, 13]
@@ -153,6 +154,7 @@ def in_pong(ArtI):
         def pauseMenu(self):
             self.pause = not self.pause
             self.menu("Press White  to  unpause", "Press  Red  to restart", "Press  Yellow  to quit")
+            sleep(.1)
         def restart(self):
             self.pause = False
             self.score1 = 0

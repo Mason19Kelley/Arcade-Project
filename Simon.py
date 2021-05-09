@@ -53,7 +53,6 @@ def in_simon():
                     return
                 if GPIO.input(switches[4]) and self.over == True:
                     self.restart()
-                print("h")
                 if self.play == True:
                     print(self.seq)
                     for i in range(0, len(self.seq)):
