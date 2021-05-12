@@ -31,6 +31,7 @@ def in_simon():
             self.player_seq = []
             self.play = True
             self.over = False
+            self.time = 1
         def seqGen(self, cap):
             for i in range(0, cap):
                 self.seq.append(randint(0, 3))
@@ -54,7 +55,6 @@ def in_simon():
                 if GPIO.input(switches[4]) and self.over == True:
                     self.restart()
                 if self.play == True:
-                    print(self.seq)
                     for i in range(0, len(self.seq)):
                         if self.seq[i] == 0:
                             sounds[0].play()
@@ -62,7 +62,7 @@ def in_simon():
                             sleep(0.1)
                             pygame.display.update()
                             self.simon.fill(black)
-                            sleep(1)
+                            sleep(self.time)
                             pygame.display.update()
 
                         elif self.seq[i] == 1:
@@ -141,6 +141,8 @@ def in_simon():
                         self.over = True
                     if self.player_seq == self.seq:
                         self.score += 1
+                        if self.time > 0:
+                            self.time -= .1
                         self.play = True
                         self.player_seq = []
                         self.seq.append(randint(0,3))

@@ -71,35 +71,28 @@ while True:
             else:
                 a1.button -= 1
         if GPIO.input(switches[3]):
+            print('f')
             if a1.button == 3:
                 a1.button = 0
             else:
                 a1.button += 1
-        print(a1.button)
         if a1.button == 0:
             a1.button0['bg'] = 'red2'
-            sleep(.1)
         else:
             a1.button0.config(bg='white')
-            sleep(.1)
         if a1.button == 1:
             a1.button1.config(bg='red2')
-            sleep(.1)
         else:
             a1.button1.config(bg='white')
-            sleep(.1)
         if a1.button == 2:
             a1.button2.config(bg='red2')
-            sleep(.1)
         else:
             a1.button2.config(bg='white')
-            sleep(.1)
         if a1.button == 3:
             a1.button3.config(bg='red2')
-            sleep(.1)
         else:
             a1.button3.config(bg='white')
-            sleep(.1)
+        sleep(.15)
         if GPIO.input(switches[4]):
             a1.commands[a1.button]()
         
