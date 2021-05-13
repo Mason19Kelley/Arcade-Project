@@ -5,6 +5,7 @@ import pyglet
 import RPi.GPIO as GPIO
 from time import sleep
 
+#GPIO setup
 GPIO.setmode(GPIO.BCM)
 leds = [5, 24, 26, 12, 16]
 switches = [4, 25, 27, 6, 13]
@@ -13,7 +14,7 @@ GPIO.setup(switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 for i in leds:
 	GPIO.output(leds, True)
 
-
+#pong initialize function
 def in_pong(ArtI):
 	pyglet.font.add_file('ARCADECLASSIC.TTF')
 	# initializes pygame
@@ -27,11 +28,13 @@ def in_pong(ArtI):
 	YELLOW = (255, 255, 0)
 	# creates a pygame window
 	size = (800, 455)
-
+	#bounce sound initialization
 	boop = pygame.mixer.Sound("pong_bounce.wav")
 	pygame.mixer.music.load('pong_bounce.wav')
 
+	#pong game class
 	class Game:
+		#constructor
 		def __init__(self, start):
 			self.start = start
 			self.score1 = 0
@@ -40,13 +43,17 @@ def in_pong(ArtI):
 			self.over = False
 			self.winner = None
 			self.screen = None
-
+		#play method loop for pong
 		def play(self, ai):
+			#determinesd if AI is on or not
 			player2.AI = ai
 			pygame.display.set_caption("Pong")
+			#initializes screen and over var
 			self.screen = pygame.display.set_mode(size)
 			self.over = False
+			#var needed for pause
 			previous_key_p = False
+			#main pygame loop
 			while self.start:
 				# quits if x is pressed
 				for event in pygame.event.get():
@@ -56,7 +63,7 @@ def in_pong(ArtI):
 
 						self.__del__()
 						return
-				pressed_keys = pygame.key.get_pressed()
+				#pause, restart, and quit functions
 				if GPIO.input(switches[4]) and previous_key_p == False:
 					self.pauseMenu()
 				if GPIO.input(switches[0]) and self.pause == True:
@@ -64,17 +71,17 @@ def in_pong(ArtI):
 
 				if GPIO.input(switches[2]) and self.pause == True:
 					pygame.quit()
-
 					self.__del__()
 					return
 				previous_key_p = GPIO.input(switches[4])
+				#plays loop if game is unpaused
 				if self.pause == False:
-					# creates list of pressed keys and using that to determine movement
-					pressed_keys = pygame.key.get_pressed()
+					#player movement functions
 					if GPIO.input(switches[0]) == True:
 						player1.moveUp(5)
 					if GPIO.input(switches[3]) == True:
 						player1.moveDown(5)
+					#Player 2 AI or player-controlled movements
 					if player2.AI == True:
 						player2.AI_move(ball)
 					else:
@@ -119,6 +126,7 @@ def in_pong(ArtI):
 					self.screen.blit(text, (300, 10))
 					text = font2.render(str(self.score2), 1, BLUE)
 					self.screen.blit(text, (470, 10))
+					#calls victory method if score reaches 5
 					if self.score1 >= 5:
 						self.victory("Player 1")
 					elif self.score2 >= 5:
@@ -127,15 +135,16 @@ def in_pong(ArtI):
 					pygame.display.flip()
 					# sets number of ticks per second
 					clock.tick(60)
+				#ends game if self.over is true
 				if self.over == True:
 					self.pause = True
 					self.menu(f"                {self.winner} wins!   ", "Press  Red  to restart",
 							  "Press  Yellow  to quit")
-
+		#victory method
 		def victory(self, winner):
 			self.winner = winner
 			self.over = True
-
+		#method used to draw menu for gameover and pause
 		def menu(self, text, text1, text2):
 			x = 100
 			y = 100
@@ -153,11 +162,13 @@ def in_pong(ArtI):
 			self.screen.blit(text5, (150, 325))
 			pygame.display.update()
 
+		#pause method
 		def pauseMenu(self):
 			self.pause = not self.pause
 			self.menu("Press White  to  unpause", "Press  Red  to restart", "Press  Yellow  to quit")
 			sleep(.1)
 
+		#resets intial variables to reset game
 		def restart(self):
 			self.pause = False
 			self.score1 = 0
@@ -172,7 +183,7 @@ def in_pong(ArtI):
 			ball.rect.y = 227
 			ball.x_velo = choice([-2, 2])
 			ball.y_velo = choice([-1, -2, 1, 2])
-
+		#delete magic method for when game is over, saves memory
 		def __del__(self):
 			del self
 
@@ -204,6 +215,7 @@ def in_pong(ArtI):
 			if self.rect.y > 355:
 				self.rect.y = 355
 
+		#AI move math method
 		def AI_move(self, ball):
 			if ball.rect.y > self.rect.y:
 				self.AISpeed = ((ball.rect.y - self.rect.y)) / (15 + 600 / (ball.rect.x + 1))
