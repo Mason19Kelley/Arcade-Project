@@ -4,13 +4,15 @@ from time import sleep
 import pyglet
 import RPi.GPIO as GPIO
 
+#GPIO setup
 GPIO.setmode(GPIO.BCM)
 leds = [5, 24, 26, 12, 16]
 switches = [4, 25, 27, 6, 13]
 GPIO.setup(switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
-
+#main play functions
 def in_speed():
+	#initial variables
 	pyglet.font.add_file('ARCADECLASSIC.TTF')
 	size = (800, 480)
 	red = (255, 0, 0)
@@ -22,7 +24,9 @@ def in_speed():
 	colors = [red, green, yellow, blue]
 	clock = pygame.time.Clock()
 
+	#speed game class
 	class SpeedGame:
+		#constructor
 		def __init__(self):
 			self.pressed = False
 			self.scores = []
@@ -35,11 +39,14 @@ def in_speed():
 			self.last = 0
 			self.over = False
 
+		#game over functions
 		def game_over(self):
 			self.speed_menu(f"{sum(self.scores) // len(self.scores)}", "Press  White  to restart",
 							"Press  Yellow  to quit")
 
+		#main play function
 		def speedPlay(self):
+			#pygame and variable initialization
 			pygame.init()
 			pygame.display.set_caption("Speed")
 			self.speed = pygame.display.set_mode(size)
@@ -48,14 +55,16 @@ def in_speed():
 			self.time = pygame.time.get_ticks()
 			self.last = self.time
 			pygame.display.update()
+			#main play loop
 			while self.state:
+				#quit game
 				for event in pygame.event.get():
 					if event.type == pygame.QUIT:
 						pygame.display.quit()
 						pygame.quit()
 						return
+				#ends game is self.over is true
 				if self.over == True:
-					pressed_keys = pygame.key.get_pressed()
 					if GPIO.input(switches[4]):
 						self.restart()
 
@@ -63,8 +72,9 @@ def in_speed():
 						pygame.quit()
 						self.__del__()
 						return
-
+				#plays this if there are more times left in the sequence
 				if self.times > 0:
+					#writes color and timer to screen
 					self.speed.fill(colors[self.t])
 					font2 = pygame.font.Font('ARCADECLASSIC.TTF', 74)
 					text = font2.render(str(self.times), 1, white)
@@ -74,8 +84,7 @@ def in_speed():
 					text = font2.render(str(start), 1, white)
 					self.speed.blit(text, (250, 135))
 					pygame.display.update()
-					pressed_keys = pygame.key.get_pressed()
-
+					#detects which button is pressed
 					if GPIO.input(switches[0]) == True:
 						self.val = 0
 						self.pressed = True
@@ -89,6 +98,7 @@ def in_speed():
 						self.val = 3
 						self.pressed = True
 
+					#checks if button is the required button to be pressed
 					if self.pressed == True:
 						if self.val == self.t:
 							end = (pygame.time.get_ticks() - self.last)
@@ -102,6 +112,7 @@ def in_speed():
 							self.pressed = False
 							self.times -= 1
 							sleep(1)
+				#ends game once sequence is over
 				else:
 					self.game_over()
 
@@ -110,6 +121,7 @@ def in_speed():
 				# sets number of ticks per second
 				clock.tick(60)
 
+		#menu for game over
 		def speed_menu(self, text, text1, text2):
 			x = 100
 			y = 100
@@ -133,6 +145,7 @@ def in_speed():
 			self.over = True
 			pygame.display.update()
 
+		#restart method
 		def restart(self):
 			self.pressed = False
 			self.scores = []
@@ -144,10 +157,11 @@ def in_speed():
 			self.last = self.time
 			self.over = False
 			pygame.display.update()
-
+		#delete method
 		def __del__(self):
 			del self
 
+	#play method
 	def play_speed():
 		s1 = SpeedGame()
 		s1.speedPlay()
