@@ -1,5 +1,5 @@
 # Main GUI setup for menu
-
+#import statements
 from tkinter import *
 import pong
 import pygame
@@ -8,12 +8,14 @@ import Simon
 import RPi.GPIO as GPIO
 from time import sleep
 
+#pygame and GPIO initialization
 pygame.init()
 switches = [4, 25, 27, 6, 13]
 GPIO.setup(switches, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
-
+#main window class
 class MenuScreen(Frame, Canvas):
+	#constructor
 	def __init__(self, container):
 		Frame.__init__(self, container)
 		self.play = False
@@ -27,6 +29,7 @@ class MenuScreen(Frame, Canvas):
 		self.button3 = None
 		self.menuSet()
 
+	#initializes all widgets in the menu
 	def menuSet(self):
 		bg = PhotoImage(file="menuIMG/mario.gif")
 		back = Label(self, width=WIDTH, height=HEIGHT, image=bg)
@@ -65,6 +68,7 @@ class MenuScreen(Frame, Canvas):
 		self.pack(fill="both", expand=True)
 
 
+#initializes window and window class
 window = Tk()
 window.title("Arcade")
 WIDTH = 800
@@ -72,38 +76,40 @@ HEIGHT = 480
 window.geometry('%dx%d+%d+%d' % (WIDTH, HEIGHT, 0, 0))
 window.attributes('-zoomed', True)
 a1 = MenuScreen(window)
+#play loop for cycling through buttons
 while True:
-	if a1.play == False:
-		if GPIO.input(switches[0]):
-			if a1.button == 0:
-				a1.button = 3
-			else:
-				a1.button -= 1
-		if GPIO.input(switches[3]):
-			print('f')
-			if a1.button == 3:
-				a1.button = 0
-			else:
-				a1.button += 1
+	#two input conditionals for left and right
+	if GPIO.input(switches[0]):
 		if a1.button == 0:
-			a1.button0['bg'] = 'red2'
+			a1.button = 3
 		else:
-			a1.button0.config(bg='white')
-		if a1.button == 1:
-			a1.button1.config(bg='red2')
-		else:
-			a1.button1.config(bg='white')
-		if a1.button == 2:
-			a1.button2.config(bg='red2')
-		else:
-			a1.button2.config(bg='white')
+			a1.button -= 1
+	if GPIO.input(switches[3]):
+		print('f')
 		if a1.button == 3:
-			a1.button3.config(bg='red2')
+			a1.button = 0
 		else:
-			a1.button3.config(bg='white')
-		sleep(.15)
-		if GPIO.input(switches[4]):
-			a1.commands[a1.button]()
-
+			a1.button += 1
+	#conditionals to determine which button is selected
+	if a1.button == 0:
+		a1.button0['bg'] = 'red2'
+	else:
+		a1.button0.config(bg='white')
+	if a1.button == 1:
+		a1.button1.config(bg='red2')
+	else:
+		a1.button1.config(bg='white')
+	if a1.button == 2:
+		a1.button2.config(bg='red2')
+	else:
+		a1.button2.config(bg='white')
+	if a1.button == 3:
+		a1.button3.config(bg='red2')
+	else:
+		a1.button3.config(bg='white')
+	sleep(.15)
+	if GPIO.input(switches[4]):
+		a1.commands[a1.button]()
+	#tkinter update functions
 	a1.update_idletasks()
 	a1.update()
